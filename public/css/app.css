@@ -1,10 +1,24 @@
 
 /*Layout Overrides*/
-section.content {
-    margin: 75px 15px 0px 315px;
+/*section.content {
+    margin: 50px 15px 0px 315px;
+}
+
+.block-header {
+    margin-top: 10px;    
+}*/
+
+.card .header h2 small {
+    display: inline !important;
+    margin-left: 6px;
 }
 
 /*Side Nav*/
 .ml-menu li.active {
     background-color: #f3f2f2 !important;
+}
+
+/*Custom Components*/
+label span.required {
+    color: red;
 }

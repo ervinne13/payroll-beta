@@ -33,22 +33,14 @@ function bsb_plugins_url($url) {
 // </editor-fold>
 
 /* * ************************************************************************* */
-// <editor-fold defaultstate="collapsed" desc="Gentelella">
+// <editor-fold defaultstate="collapsed" desc="Data Tables">
 
-function gentelella_vendors_url($url) {
-    return url("bower_components/gentelella/vendors/{$url}");
+function datatables_bs_url($url) {
+    return url("bower_components/datatables.net-bs/{$url}");
 }
 
-function gentelella_production_url($url) {
-    return url("bower_components/gentelella/production/{$url}");
-}
-
-function gentelella_build_url($url) {
-    return url("bower_components/gentelella/build/{$url}");
-}
-
-function gentelella_images_url($url) {
-    return url("bower_components/gentelella/production/images/{$url}");
+function datatables_url($url) {
+    return url("bower_components/datatables.net/{$url}");
 }
 
 // </editor-fold>

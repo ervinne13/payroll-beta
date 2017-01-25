@@ -42,11 +42,11 @@
                                         <span>Companies</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="{{url("departments")}}" class=" waves-effect waves-block">
-                                        <span>Department</span>
-                                    </a>
-                                </li>
+                                <!--                                <li>
+                                                                    <a href="{{url("departments")}}" class=" waves-effect waves-block">
+                                                                        <span>Department</span>
+                                                                    </a>
+                                                                </li>-->
                                 <li>
                                     <a href="{{url("positions")}}" class=" waves-effect waves-block">
                                         <span>Position</span>
@@ -66,6 +66,16 @@
                             </a>
                             <ul class="ml-menu">
                                 <li>
+                                    <a href="{{url("employees")}}" class=" waves-effect waves-block">
+                                        <span>Employees</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url("hr/policies")}}" class=" waves-effect waves-block">
+                                        <span>Policies</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{url("holidays")}}" class=" waves-effect waves-block">
                                         <span>Holidays</span>
                                     </a>
@@ -78,6 +88,16 @@
                                 <li>
                                     <a href="{{url("shifts")}}" class=" waves-effect waves-block">
                                         <span>Shifts</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url("shift-breaks")}}" class=" waves-effect waves-block">
+                                        <span>Shift Breaks</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url("work-schedules")}}" class=" waves-effect waves-block">
+                                        <span>Work Schedules</span>
                                     </a>
                                 </li>
                                 <li>
@@ -99,7 +119,7 @@
                             </a>
                             <ul class="ml-menu">
                                 <li>
-                                    <a href="{{url("payroll-item-types")}}" class=" waves-effect waves-block">
+                                    <a href="{{url("payroll/items")}}" class=" waves-effect waves-block">
                                         <span>Payroll Items</span>
                                     </a>
                                 </li>
@@ -132,6 +152,28 @@
                 </li>
                 <!--*End of Master Files-->
 
+                <!--Application Setup-->
+                <!--Master Files-->
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+<!--                        <i class="material-icons">insert_drive_file</i>-->
+                        <span>Application Setup</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>
+                            <a href="{{url("modules")}}" class=" waves-effect waves-block">
+                                Modules
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url("number-series")}}" class=" waves-effect waves-block">
+                                Number Series
+                            </a>
+                        </li>                       
+                    </ul>
+                </li>
+                <!--*End of Application Setup-->
+
                 <!--Security-->
                 <li>
                     <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
@@ -140,15 +182,15 @@
                     </a>
                     <ul class="ml-menu">
                         <li>
-                            <a href="{{url("/users")}}" class=" waves-effect waves-block">
+                            <a href="{{url("security/users")}}" class=" waves-effect waves-block">
                                 Users
                             </a>
                         </li>
-                        <li>
-                            <a href="{{url("/roles")}}" class=" waves-effect waves-block">
-                                Roles
-                            </a>
-                        </li>
+                        <!--                        <li>
+                                                    <a href="{{url("security/roles")}}" class=" waves-effect waves-block">
+                                                        Roles
+                                                    </a>
+                                                </li>-->
                     </ul>
                 </li>
                 <!--*End of Security-->

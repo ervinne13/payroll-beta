@@ -1,11 +1,13 @@
 @extends('layouts.bsb-side-nav')
 
 @section('css-plugins')
-<!--<link href="{{bsb_plugins_url("jquery-steps/jquery.steps.css")}}" rel="stylesheet">-->
+<link href="{{bsb_plugins_url("bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css")}}" rel="stylesheet">
 @endsection
 
 @section('js-plugins')
 <script src="{{bsb_plugins_url("jquery-steps/jquery.steps.min.js")}}"></script>
+<script src="{{bsb_plugins_url("momentjs/moment.js")}}"></script>
+<script src="{{bsb_plugins_url("bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js")}}"></script>
 @endsection
 
 @section('js')
@@ -41,13 +43,68 @@
 
                     <h1>Payroll Setup</h1>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <p>
-                                TODO: Add fields here based on the old payroll setup                                                               
-                            </p>
+                        <div class="col-lg-6">
+                            <b>Cut-off Start</b>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">date_range</i>
+                                </span>
+                                <div class="form-line">
+                                    <input type="text" class="form-control date datepicker" placeholder="Ex: 01/11/2016">
+                                </div>
+                            </div>
 
-                            <img src="{{url("images/payroll setup.png")}}">
+                            <b>Cut-off End</b>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">date_range</i>
+                                </span>
+                                <div class="form-line">
+                                    <input type="text" class="form-control date datepicker" placeholder="Ex: 01/25/2016">
+                                </div>
+                            </div>
+
+                            <b>Pay Period</b>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">date_range</i>
+                                </span>
+                                <div class="form-line">
+                                    <input type="text" class="form-control date datepicker" placeholder="Ex: 01/31/2016">
+                                </div>
+                            </div>
+
+                            <b>Next Pay Period</b>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">date_range</i>
+                                </span>
+                                <div class="form-line">
+                                    <input type="text" class="form-control date datepicker" placeholder="Ex: 02/15/2016">
+                                </div>
+                            </div>                 
                         </div>
+
+                        <div class="col-lg-6">
+                            <input type="checkbox" id="check_tax" name="tax_deduction"/>
+                            <label for="check_tax">Tax Deduction</label>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <input type="checkbox" id="check_sss" name="sss_deduction" />
+                            <label for="check_sss">SSS Deduction</label>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <input type="checkbox" id="check_pagibig" name="pagibig_deduction" />
+                            <label for="check_pagibig">PAGIBIG Deduction</label>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <input type="checkbox" id="check_philhealth" name="philhealth_deduction" />
+                            <label for="check_philhealth">Philhealth Deduction</label>
+                        </div>
+
                     </div>
 
                     <h1>Attendance Processing</h1>
@@ -106,7 +163,7 @@
                                             <a role="button" class="collapsed" data-toggle="collapse" href="#collapse_error" aria-expanded="false" aria-controls="collapse_error">
                                                 <i class="material-icons">warning</i> 
                                                 There was an error when processing payroll.
-                                                
+
                                                 - Click for details about the error
                                             </a>
                                         </h4>

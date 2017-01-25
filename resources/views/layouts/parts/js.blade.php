@@ -17,7 +17,12 @@
 <!--Alerts-->
 <script src="{{bsb_plugins_url("sweetalert/sweetalert.min.js")}}"></script>
 
+<!--Templating-->
+<script src="{{url("vendor/underscore/underscore.js")}}"></script>
+
 @yield("js-plugins")
+
+@include('layouts.parts.uses-js-plugins')
 
 <!-- BSB JS -->
 <script src="{{bsb_js_url("admin.js")}}"></script>

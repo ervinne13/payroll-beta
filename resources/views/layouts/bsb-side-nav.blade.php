@@ -9,12 +9,20 @@
 
         @yield("css")
 
+        <script type="text/javascript">
+            var baseUrl = '{{url("/")}}';
+            
+            var globals = {
+                reloadRedirectWaitTime: 1200    //  1.2s
+            };
+        </script>
+
     </head>
 
     <body class="theme-light-green ls-closed">
 
-        Page loader displays a loading icon when the page is loading
-        @include('layouts.parts.page-loader')        
+        <!--Page loader displays a loading icon when the page is loading-->
+        @include('layouts.parts.page-loader')
 
         <!-- Overlay is responsible for "darkening" the content view once a sidebar is opened-->
         <div class="overlay"></div>
