@@ -121,7 +121,6 @@ class WorkingDayComputationService {
             $runningDate->modify('+1 day');
         }
 
-        //  TODO: halfDayAbsences, minutesWorked
         return [
             "workingCutoffDayCount"                => $workingCutoffDayCount,
             "workingMonthDayCount"                 => $workingMonthDayCount,
@@ -130,9 +129,7 @@ class WorkingDayComputationService {
             "workingDays"                          => $workingDays,
             "absences"                             => $absences,
             "lates"                                => $lates,
-            "breaktimeLates"                       => $breaktimeLates,
-            "halfDayAbsences"                      => 0,
-            "minutesWorked"                        => 0,
+            "breaktimeLates"                       => $breaktimeLates
         ];
     }
 
@@ -149,8 +146,6 @@ class WorkingDayComputationService {
             $info["holiday"] = NULL;
         }
 
-        $info["scheduled_in"]         = $shift->scheduled_in;
-        $info["scheduled_out"]        = $shift->scheduled_out;
         $info["time_in"]              = NULL;
         $info["time_out"]             = NULL;
         $info["time_lates"]           = 0;
@@ -161,30 +156,22 @@ class WorkingDayComputationService {
     }
 
     private function assignWorkingDayTimeInfo(&$info, Shift $shift, $dateKey) {
-
-//        echo json_encode($this->chronoLogMap);
-//        exit();
-
         if (array_key_exists($dateKey, $this->chronoLogMap)) {
             $chronoLogs = $this->chronoLogMap[$dateKey];
+
+            if (count($chronoLogs) >= 2) {
+                //  the employee is present only if he has 2 time entries
+                $info["present"]  = true;
+                $info["time_out"] = $chronoLogs[1]->entry_time;
+            }
 
             if (count($chronoLogs) > 0) {
                 $info["time_in"] = $chronoLogs[0]->entry_time;
             }
 
-            if (count($chronoLogs) >= 2) {
-                //  the employee is present only if he has 2 time entries
-                $info["present"]  = true;
-                $info["time_out"] = $chronoLogs[count($chronoLogs) - 1]->entry_time;
-            }
+            $latesInMin = round((strtotime($chronoLogs[0]->entry_time) - strtotime($shift->sheduled_in)) / 60, 2);
 
-            $entryType   = new DateTime($chronoLogs[0]->entry_time);
-            $scheduledIn = new DateTime($shift->scheduled_in);
-
-            if ($entryType > $scheduledIn) {
-                $dateDiff           = $entryType->diff($scheduledIn);
-                $info["time_lates"] = $dateDiff->i;
-            }
+//            echo $latesInMin;
         }
 
         return $info;
@@ -287,11 +274,13 @@ class WorkingDayComputationService {
 
     private function mapEmployeeChronoLog(Employee $employee, Payroll $payroll) {
 
-        $chronoLogs = $employee
-                ->ChronoLog()
-                ->BetweenDates($payroll->cutoff_start, $payroll->cutoff_end)
-                ->orderBy("entry_time")
-                ->get();
+//        echo json_encode($payroll->cutoff_start->format('Y-m-d'));
+//        exit();
+
+        $chronoLogs = $employee->ChronoLog()->BetweenDates($payroll->cutoff_start, $payroll->cutoff_end)->get();
+
+//        echo json_encode($chronoLogs);
+//        exit();
 
         foreach ($chronoLogs AS $log) {
             if (!array_key_exists($log->entry_date, $this->chronoLogMap)) {

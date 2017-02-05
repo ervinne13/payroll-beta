@@ -1,9 +1,10 @@
 <?php
 
 use App\Models\HR\Employee;
-use App\Models\HR\Policy;
+use App\Models\HR\EmployeeWorkSchedule;
 use App\Models\HR\TaxCategory;
 use App\Models\Location;
+use App\Models\Payroll\EmployeePayrollItemComputation;
 use App\Models\Position;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
@@ -17,7 +18,9 @@ class EmployeeSeeder extends Seeder {
      */
     public function run() {
 
-        $generatedEmployees = [];
+        $generatedEmployees              = [];
+        $employeeWorkSchedules           = [];
+        $employeePayrollItemComputations = [];
 
         $code = 20170120000;
 
@@ -53,12 +56,45 @@ class EmployeeSeeder extends Seeder {
                 "company_code"      => $location["company_code"],
                 "tax_category_code" => $taxCategory["code"],
                 "policy_code"       => $policy["code"],
+//                "salary"            => 20000
             ];
 
             array_push($generatedEmployees, $employeeData);
+
+            array_push($employeeWorkSchedules, [
+                "employee_code"      => $code,
+                "effective_date"     => "2017-01-01",
+                "work_schedule_code" => "STD_Weekdays_M",
+            ]);
+
+            array_push($employeePayrollItemComputations, [
+                "employee_code"     => $code,
+                "payroll_item_code" => "STD_E_MI",
+                "amount"            => 20000
+            ]);
+
+            array_push($employeePayrollItemComputations, [
+                "employee_code"     => $code,
+                "payroll_item_code" => "STD_D_SSS",
+                "amount"            => 500
+            ]);
+
+            array_push($employeePayrollItemComputations, [
+                "employee_code"     => $code,
+                "payroll_item_code" => "STD_D_PAGIBIG",
+                "amount"            => 100
+            ]);
+
+            array_push($employeePayrollItemComputations, [
+                "employee_code"     => $code,
+                "payroll_item_code" => "STD_D_PH",
+                "amount"            => 312.50
+            ]);
         }
 
         Employee::insert($generatedEmployees);
+        EmployeeWorkSchedule::insert($employeeWorkSchedules);
+        EmployeePayrollItemComputation::insert($employeePayrollItemComputations);
     }
 
 }

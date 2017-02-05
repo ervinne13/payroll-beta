@@ -96,6 +96,10 @@ class Employee extends SGModel {
         return $this->hasMany(EmployeeWorkSchedule::class, "employee_code");
     }
 
+    public function payrollItemsAmount() {
+        return $this->hasMany(EmployeePayrollItemAmount::class, "employee_code");
+    }
+
 //    
 //    public function workSchedules() {
 //        return $this->belongsToMany($related, $table, $foreignKey, $otherKey)
@@ -107,7 +111,7 @@ class Employee extends SGModel {
 
     public function chronoLog() {
         return $this->hasMany(ChronoLog::class, "employee_code");
-    }       
+    }
 
     // </editor-fold>
 }

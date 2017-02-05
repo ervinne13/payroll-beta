@@ -89,6 +89,8 @@ Route::group(['prefix' => 'timekeeping', 'namespace' => 'Modules\Timekeeping', '
 Route::group(['prefix' => 'payroll', 'namespace' => 'Modules\Payroll', 'middleware' => ['auth']], function () {
     Route::get('process', 'ProcessController@index');
 
+    Route::get('employee/{employeeCode}/payroll-items-amount', 'EmployeePayrollItemsAmountController@index');
+
     Route::get('items/datatable', 'PayrollItemsController@datatable');
     Route::resource('items', 'PayrollItemsController');
 });

@@ -214,4 +214,15 @@
 
     //</editor-fold>    
 
+    //<editor-fold defaultstate="collapsed" desc="Payroll Items Amount">
+    
+    function loadPolicyPayrollItems() {
+        
+        
+        
+    }
+    
+    //</editor-fold>
+
+
 })();

@@ -40,6 +40,7 @@ class SampleChronoLogSeeder extends Seeder {
 
             $log["entry_date"] = "2017-01-{$day}";
             $log["entry_time"] = "2017-01-{$day} {$timeIn}";
+            $log["entry_type"] = "IN";
 
             ChronoLog::insert($log);
 
@@ -48,6 +49,7 @@ class SampleChronoLogSeeder extends Seeder {
 
             $log["entry_date"] = "2017-01-{$day}";
             $log["entry_time"] = "2017-01-{$day} {$timeOut}";
+            $log["entry_type"] = "OUT";
 
             ChronoLog::insert($log);
         }
@@ -60,6 +62,8 @@ class SampleChronoLogSeeder extends Seeder {
 
             $log["entry_date"] = "2017-02-{$day}";
             $log["entry_time"] = "2017-02-{$day} {$timeIn}";
+            $log["entry_type"] = "IN";
+
             ChronoLog::insert($log);
 
             //  Exactly 5:00 PM
@@ -67,6 +71,8 @@ class SampleChronoLogSeeder extends Seeder {
 
             $log["entry_date"] = "2017-02-{$day}";
             $log["entry_time"] = "2017-02-{$day} {$timeOut}";
+            $log["entry_type"] = "OUT";
+
             ChronoLog::insert($log);
         }
     }

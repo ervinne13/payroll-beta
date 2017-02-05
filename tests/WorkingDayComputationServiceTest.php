@@ -22,24 +22,12 @@ class WorkingDayComputationServiceTest extends TestCase {
         $payroll->cutoff_end      = DateTime::createFromFormat('Y-m-d', "2017-02-10");
         $payroll->next_pay_period = DateTime::createFromFormat('Y-m-d', "2017-03-01");
 
-        $payroll->sss        = true;
-        $payroll->tax        = true;
-        $payroll->pagibig    = true;
-        $payroll->philhealth = true;
+        $payroll->include_monthly_processable = true;
 
         $payroll->save();
 
 //        $employee              = Employee::find("20170120001");
-        $employee              = Employee::find("20170120003");
-        $employee->policy_code = "MR";
-        $employee->save();
-
-        $employeeWorkSchedule                     = new EmployeeWorkSchedule();
-        $employeeWorkSchedule->employee_code      = $employee->code;
-        $employeeWorkSchedule->work_schedule_code = "STD_Weekdays_M";
-        $employeeWorkSchedule->effective_date     = DateTime::createFromFormat("Y-m-d", "2017-01-01");  //  effective jan. 1 2016
-
-        $employeeWorkSchedule->save();
+        $employee = Employee::find("20170120003");
 
         //  test one regular holiday, ranged
         $holiday                    = new Holiday();
