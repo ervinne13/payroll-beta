@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\HR;
+namespace App\Models\Payroll;
 
 use App\Models\SGModel;
 

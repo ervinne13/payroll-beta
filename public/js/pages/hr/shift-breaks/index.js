@@ -18,7 +18,7 @@
                 caseInsensitive: true
             },
             ajax: {
-                url: baseUrl + "/shift-breaks/datatable"
+                url: baseUrl + "/hr/shift-breaks/datatable"
             },
             order: [3, "asc"],
             columns: [

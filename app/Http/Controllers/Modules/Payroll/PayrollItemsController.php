@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Modules\Payroll;
 
 use App\Http\Controllers\Controller;
-use App\Models\HR\PayrollItem;
+use App\Models\Payroll\PayrollItem;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

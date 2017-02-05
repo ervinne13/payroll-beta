@@ -77,11 +77,11 @@
                     <div class="col-md-6">      
 
                         <div class="input-group">
-                            <label>Special Holiday Rate</label>
+                            <label>Computation Multiplier</label>
                             <div class="form-line">
-                                <input value="{{$payrollItem->special_holiday_rate}}" 
-                                       name="special_holiday_rate" 
-                                       placeholder="Ex. Break Time Lates" 
+                                <input value="{{$payrollItem->multiplier}}" 
+                                       name="multiplier" 
+                                       placeholder="Ex. 1 or 1.69 (On Special Holiday Overtime)" 
                                        class="form-control"
                                        type="number" maxlength="3">
                             </div>
@@ -89,11 +89,11 @@
                         </div>
 
                         <div class="input-group">
-                            <label>Regular Holiday Rate</label>
+                            <label>Computation Divider</label>
                             <div class="form-line">
-                                <input value="{{$payrollItem->regular_holiday_rate}}" 
-                                       name="regular_holiday_rate" 
-                                       placeholder="Ex. Break Time Lates" 
+                                <input value="{{$payrollItem->divider}}" 
+                                       name="divider" 
+                                       placeholder="Ex. 1" 
                                        class="form-control"
                                        type="number" maxlength="3"  >
                             </div>
@@ -101,8 +101,10 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="checkbox" name="standard" id="check-standard" {{$payrollItem->standard ? "checked" : ""}} />
+                            @if($payrollItem->standard)
+                            <input type="checkbox" name="standard" id="check-standard" disabled checked />
                             <label for="check-standard">Standard?</label>
+                            @endif
 
                             <input type="checkbox" name="taxable" id="check-taxable" {{$payrollItem->taxable ? "checked" : ""}} />
                             <label for="check-taxable">Taxable?</label>

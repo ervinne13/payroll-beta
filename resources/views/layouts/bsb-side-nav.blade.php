@@ -1,7 +1,7 @@
 <html class="chrome"><head>
         <meta charset="UTF-8">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <title>{{$pageTitle or config("app.name")}}</title>
+        <title>{{$title or config("app.name")}}</title>
         <!-- Favicon-->
         <link rel="icon" href="../../favicon.ico" type="image/x-icon">
 
@@ -30,7 +30,7 @@
         @include('layouts.parts.static-topnav')
 
         <section>            
-            @include('layouts.parts.static-sidebar')
+            @include('layouts.parts.conditional-sidebar')
 
             @include('layouts.parts.static-sidebar-right')
         </section>

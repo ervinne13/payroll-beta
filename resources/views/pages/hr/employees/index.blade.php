@@ -17,7 +17,7 @@
                 </h2>
 
                 <div class="pull-right">
-                    <a href="{{url("employees/create")}}" class="btn bg-green waves-effect">
+                    <a href="{{url("ht/employees/create")}}" class="btn bg-green waves-effect">
                         <i class="fa fa-plus"></i> Create New
                     </a>
                 </div>
@@ -27,13 +27,11 @@
                 <table id="employees-datatable" class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>Email</th>
+                            <th></th>                            
                             <th>Name</th>
                             <th>Company</th>
                             <th>Location</th>
-                            <th>Contact 1</th>
-                            <th>Contact 2</th>
+                            <th>Contact 1</th>                            
                             <th>Policy / Work Status</th>
                         </tr>
                     </thead>

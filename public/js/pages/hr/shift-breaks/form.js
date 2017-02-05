@@ -24,7 +24,7 @@
     }
 
     function initializeForm() {
-        form_utilities.moduleUrl = "/shift-breaks";
+        form_utilities.moduleUrl = "/hr/shift-breaks";
         form_utilities.updateObjectId = code;
         form_utilities.validate = true;
         form_utilities.initializeDefaultProcessing($('.fields-container'));

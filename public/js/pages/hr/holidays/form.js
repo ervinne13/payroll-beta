@@ -28,7 +28,7 @@
     }
 
     function initializeForm() {
-        form_utilities.moduleUrl = "/holidays";
+        form_utilities.moduleUrl = "/hr/holidays";
         form_utilities.updateObjectId = code;
         form_utilities.validate = true;
         form_utilities.initializeDefaultProcessing($('.fields-container'));

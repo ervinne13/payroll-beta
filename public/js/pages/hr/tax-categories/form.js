@@ -23,7 +23,7 @@
     }
 
     function initializeForm() {
-        form_utilities.moduleUrl = "/tax-categories";
+        form_utilities.moduleUrl = "/hr/tax-categories";
         form_utilities.updateObjectId = code;
         form_utilities.validate = true;
         form_utilities.initializeDefaultProcessing($('.fields-container'));

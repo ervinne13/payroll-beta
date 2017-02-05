@@ -11,14 +11,19 @@
   |
  */
 
+Route::auth();
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('starter', 'StarterController@index');
 Route::get('computation-tables/philhealth', 'StarterController@index');
 
-Route::group(['prefix' => '/', 'namespace' => 'Modules'], function () {
+//
+/* * ************************************************************************* */
+// <editor-fold defaultstate="collapsed" desc="Main Routes">
+
+Route::group(['prefix' => '/', 'namespace' => 'Modules', 'middleware' => ['auth']], function () {
     Route::get('modules/datatable', 'ModulesController@datatable');
     Route::resource('modules', 'ModulesController');
 
@@ -35,14 +40,18 @@ Route::group(['prefix' => '/', 'namespace' => 'Modules'], function () {
     Route::resource('locations', 'LocationsController');
 });
 
+// </editor-fold>
+
+/* * ************************************************************************* */
 // <editor-fold defaultstate="collapsed" desc="HR Modules">
 
-Route::group(['prefix' => '/', 'namespace' => 'Modules\HR'], function () {
+Route::group(['prefix' => '/hr', 'namespace' => 'Modules\HR', 'middleware' => ['auth']], function () {
 
     Route::get('policies/datatable', 'PoliciesController@datatable');
     Route::resource('policies', 'PoliciesController');
 
     Route::get('employees/datatable', 'EmployeesController@datatable');
+    Route::delete('employees/{employeeId}/work-schedule/{workScheduleEffectiveDate}', 'EmployeesController@destroyEmployeeWorkSchedule');
     Route::resource('employees', 'EmployeesController');
 
     Route::get('holidays/datatable', 'HolidaysController@datatable');
@@ -62,16 +71,39 @@ Route::group(['prefix' => '/', 'namespace' => 'Modules\HR'], function () {
 });
 
 // </editor-fold>
-//Route::group(['prefix' => 'payroll', 'namespace' => 'Modules\Payroll', 'middleware' => ['auth']], function () {
-Route::group(['prefix' => 'payroll', 'namespace' => 'Modules\Payroll'], function () {
+
+/* * ************************************************************************* */
+// <editor-fold defaultstate="collapsed" desc="comment">
+
+Route::group(['prefix' => 'timekeeping', 'namespace' => 'Modules\Timekeeping', 'middleware' => ['auth']], function () {
+
+    Route::get('employees/datatable', 'EmployeesController@datatable');
+    Route::resource('employees', 'EmployeesController');
+});
+
+// </editor-fold>
+
+/* * ************************************************************************* */
+// <editor-fold defaultstate="collapsed" desc="Payroll">
+
+Route::group(['prefix' => 'payroll', 'namespace' => 'Modules\Payroll', 'middleware' => ['auth']], function () {
     Route::get('process', 'ProcessController@index');
 
     Route::get('items/datatable', 'PayrollItemsController@datatable');
     Route::resource('items', 'PayrollItemsController');
 });
 
-Route::group(['prefix' => 'security', 'namespace' => 'Modules\Security'], function () {
+// </editor-fold>
+
+/* * ************************************************************************* */
+// <editor-fold defaultstate="collapsed" desc="Security">
+
+Route::group(['prefix' => 'security', 'namespace' => 'Modules\Security', 'middleware' => ['auth']], function () {
 
     Route::get('users/datatable', 'UsersController@datatable');
     Route::resource('users', 'UsersController');
 });
+
+// </editor-fold>
+
+Auth::routes();

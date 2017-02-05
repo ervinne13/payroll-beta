@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="Payroll"/>
+        <group name="Payroll">
+            <file>file:/C:/xampp/htdocs/others/payroll/routes/web.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/Processors/Earnings/MonthlyIncomePayrollItemProcessor.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/Processors/Deductions/AbsencesPayrollItemProcessor.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/PayrollItemProcessorLookupService.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Http/Controllers/Modules/Payroll/ProcessController.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/PayrollItemProcessingService.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Models/HR/Employee.php</file>
+        </group>
     </open-files>
 </project-private>

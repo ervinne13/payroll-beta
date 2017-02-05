@@ -66,7 +66,7 @@
                             </a>
                             <ul class="ml-menu">
                                 <li>
-                                    <a href="{{url("employees")}}" class=" waves-effect waves-block">
+                                    <a href="{{url("hr/employees")}}" class=" waves-effect waves-block">
                                         <span>Employees</span>
                                     </a>
                                 </li>
@@ -76,37 +76,37 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{url("holidays")}}" class=" waves-effect waves-block">
+                                    <a href="{{url("hr/holidays")}}" class=" waves-effect waves-block">
                                         <span>Holidays</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{url("tax-categories")}}" class=" waves-effect waves-block">
+                                    <a href="{{url("hr/tax-categories")}}" class=" waves-effect waves-block">
                                         <span>Tax Categories</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{url("shifts")}}" class=" waves-effect waves-block">
+                                    <a href="{{url("hr/shifts")}}" class=" waves-effect waves-block">
                                         <span>Shifts</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{url("shift-breaks")}}" class=" waves-effect waves-block">
+                                    <a href="{{url("hr/shift-breaks")}}" class=" waves-effect waves-block">
                                         <span>Shift Breaks</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{url("work-schedules")}}" class=" waves-effect waves-block">
+                                    <a href="{{url("hr/work-schedules")}}" class=" waves-effect waves-block">
                                         <span>Work Schedules</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{url("leave-types")}}" class=" waves-effect waves-block">
+                                    <a href="{{url("hr/leave-types")}}" class=" waves-effect waves-block">
                                         <span>Leave Types</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{url("loan-types")}}" class=" waves-effect waves-block">
+                                    <a href="{{url("hr/loan-types")}}" class=" waves-effect waves-block">
                                         <span>Loans </span>
                                     </a>
                                 </li>

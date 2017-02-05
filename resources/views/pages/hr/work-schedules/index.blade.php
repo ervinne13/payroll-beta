@@ -17,7 +17,7 @@
                 </h2>
 
                 <div class="pull-right">
-                    <a href="{{url("work-schedules/create")}}" class="btn bg-green waves-effect">
+                    <a href="{{url("hr/work-schedules/create")}}" class="btn bg-green waves-effect">
                         <i class="fa fa-plus"></i> Create New
                     </a>
                 </div>

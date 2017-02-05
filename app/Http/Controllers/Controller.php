@@ -13,9 +13,13 @@ class Controller extends BaseController {
         DispatchesJobs,
         ValidatesRequests;
 
+    protected $title = NULL;
+
     protected function getDefaultViewData() {
         // add default view data here
-        return [];
+        return [
+            "title" => $this->title
+        ];
     }
 
 }

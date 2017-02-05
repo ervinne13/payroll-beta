@@ -18,30 +18,32 @@
                 caseInsensitive: true
             },
             ajax: {
-                url: baseUrl + "/employees/datatable"
+                url: baseUrl + "/hr/employees/datatable"
             },
             order: [1, "asc"],
             columns: [
-                {data: 'id'},
-                {data: 'email'},
+                {data: 'code'},
                 {data: 'first_name'},
-                {data: 'company.name', name: 'company.name'},
-                {data: 'location.name', name: 'location.name'},
+                {data: 'company_code'},
+                {data: 'location.description', name: 'location.description'},
                 {data: 'contact_number_1'},
-                {data: 'contact_number_2'},
-                {data: 'policy.description', name: 'policy.description'}
+                {data: 'policy.short_description', name: 'policy.short_description'}
             ],
             columnDefs: [
                 {searchable: false, targets: [0]},
                 {orderable: false, targets: [0]},
                 {
                     targets: 0,
-                    render: function (code, test, test2) {
-                        console.log(test);
-                        console.log(test2);
+                    render: function (code) {
                         var actions = datatable_utilities.getAllDefaultActions(code);
                         var view = datatable_utilities.getInlineActionsView(actions);
                         return view;
+                    }
+                },
+                {
+                    targets: 1,
+                    render: function (code, display, rowData) {
+                        return rowData.first_name + " " + rowData.last_name;
                     }
                 }
             ]

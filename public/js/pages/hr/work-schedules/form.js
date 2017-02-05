@@ -15,7 +15,7 @@
     });
 
     function initializeForm() {
-        form_utilities.moduleUrl = "/work-schedules";
+        form_utilities.moduleUrl = "/hr/work-schedules";
         form_utilities.updateObjectId = code;
         form_utilities.validate = true;
 

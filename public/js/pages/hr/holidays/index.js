@@ -18,7 +18,7 @@
                 caseInsensitive: true
             },
             ajax: {
-                url: baseUrl + "/holidays/datatable"
+                url: baseUrl + "/hr/holidays/datatable"
             },
             order: [1, "asc"],
             columns: [

@@ -18,7 +18,7 @@
                 caseInsensitive: true
             },
             ajax: {
-                url: baseUrl + "/work-schedules/datatable"
+                url: baseUrl + "/hr/work-schedules/datatable"
             },
             order: [1, "asc"],
             columns: [

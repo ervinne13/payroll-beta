@@ -4,13 +4,21 @@ namespace App\Models\HR;
 
 use App\Models\Company;
 use App\Models\Location;
+use App\Models\Payroll\ChronoLog;
+use App\Models\Payroll\Payroll;
 use App\Models\Position;
 use App\Models\SGModel;
 
 class Employee extends SGModel {
 
-    protected $table    = "employee";
+    protected $table      = "employee";
+    protected $primaryKey = "code";
+    //
+    /*     * ************************************************************************* */
+    // <editor-fold defaultstate="collapsed" desc="Fillable">
+
     protected $fillable = [
+        "salary",
         "is_active",
         "email",
         "first_name",
@@ -33,19 +41,36 @@ class Employee extends SGModel {
         "policy_code"
     ];
 
-//    public function scopeDatatable($query) {
-//        return $query
-//                ->select([
-//                    "email"
-//                ])
-//                        ->leftJoin('company', 'company.code', '=', 'employee.company_code')
-//                        ->leftJoin('location', 'location.code', '=', 'employee.location_code')
-//                        ->leftJoin('policy', 'policy.code', '=', 'employee.policy_code')
-//        ;
-//    }
+    // </editor-fold>
 
+    /*     * ************************************************************************* */
+    // <editor-fold defaultstate="collapsed" desc="Functions">
+
+    public function getWorkingDayCount(Payroll $payroll) {
+
+        $from = $payroll->cutoff_start;
+        $to   = $payroll->cutoff_end;
+
+        $interval = date_diff($to, $from);
+        $days     = $interval->format("%a");
+
+        for ($i = 0; $i < $days; $i ++) {
+            
+        }
+    }
+
+    public function getMinuteSalary($cutOffDays) {
+        
+    }
+
+    public function getDaySalary(Payroll $payroll) {
+        
+    }
+
+    // </editor-fold>    
+
+    /*     * ************************************************************************* */
     // <editor-fold defaultstate="collapsed" desc="Relationships">
-
 
     public function location() {
         return $this->belongsTo(Location::class, "location_code");
@@ -66,6 +91,23 @@ class Employee extends SGModel {
     public function policy() {
         return $this->belongsTo(Policy::class, "policy_code");
     }
+
+    public function employeeWorkSchedules() {
+        return $this->hasMany(EmployeeWorkSchedule::class, "employee_code");
+    }
+
+//    
+//    public function workSchedules() {
+//        return $this->belongsToMany($related, $table, $foreignKey, $otherKey)
+//    }
+    // </editor-fold>
+
+    /*     * ************************************************************************* */
+    // <editor-fold defaultstate="collapsed" desc="Payroll Relationships">
+
+    public function chronoLog() {
+        return $this->hasMany(ChronoLog::class, "employee_code");
+    }       
 
     // </editor-fold>
 }

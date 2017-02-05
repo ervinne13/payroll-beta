@@ -9,12 +9,11 @@
             <ul class="nav navbar-nav navbar-right">
 
                 @include('layouts.parts.topnav.dropdown-notifications')
-                
-<!--                <li class="pull-right">
-                    <a href="javascript:void(0);" class="js-right-sidebar" data-close="true">
-                        <i class="material-icons">more_vert</i>
-                    </a>
-                </li>-->
+
+                @if (Auth::check())
+                @include('layouts.parts.topnav.current-user')
+                @endif
+
             </ul>
         </div>
     </div>

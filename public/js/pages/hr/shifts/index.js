@@ -18,7 +18,7 @@
                 caseInsensitive: true
             },
             ajax: {
-                url: baseUrl + "/shifts/datatable"
+                url: baseUrl + "/hr/shifts/datatable"
             },
             order: [1, "asc"],
             columns: [

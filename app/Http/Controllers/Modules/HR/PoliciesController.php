@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Modules\HR;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\HR\Policy;
+use Illuminate\Http\Response;
+use Yajra\Datatables\Datatables;
 
 class PoliciesController extends Controller {
 
+    protected $title = "Policy | Payroll";
+    
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index() {
         $viewData = $this->getDefaultViewData();
@@ -18,70 +22,21 @@ class PoliciesController extends Controller {
     }
 
     public function datatable() {
-        return Datatables::of(Employee::with('policy')
-                                ->with('company')
-                                ->with('location'))
-                        ->make(true);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request) {
-        //
+        return Datatables::of(Policy::query())->make(true);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id) {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id) {
-        //
-    }
+        $viewData           = $this->getDefaultViewData();
+        $viewData["policy"] = Policy::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id) {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id) {
-        //
+        return view('pages.hr.policies.printout', $viewData);
     }
 
 }

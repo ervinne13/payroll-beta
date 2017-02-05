@@ -33,8 +33,7 @@
                             <th>Taxable</th>
                             <th>Type</th>
                             <th>Computation Basis</th>
-                            <th>Special Holiday</th>
-                            <th>Regular Holiday</th>
+                            <th>Standard</th>
                         </tr>
                     </thead>
                 </table>

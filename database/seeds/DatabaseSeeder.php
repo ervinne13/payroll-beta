@@ -39,10 +39,16 @@ class DatabaseSeeder extends Seeder {
             DB::table("shift_adjustment")->truncate();
             DB::table("shift")->truncate();
 
+            DB::table("payroll_entry")->truncate();
             DB::table("payroll_item")->truncate();
+
+            DB::table("policy_payroll_item")->truncate();
+            DB::table("policy")->truncate();
 
             DB::table("position")->truncate();
             DB::table("position_level")->truncate();
+
+            DB::table("employee")->truncate();
 
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
@@ -60,8 +66,11 @@ class DatabaseSeeder extends Seeder {
             $this->call(WorkSchedulesSeeder::class);
 
             $this->call(PayrollItemsSeeder::class);
+            $this->call(PoliciesSeeder::class);
 
             $this->call(PositionsSeeder::class);
+            
+            $this->call(EmployeeSeeder::class);
 
             DB::commit();
         } catch (Exception $e) {

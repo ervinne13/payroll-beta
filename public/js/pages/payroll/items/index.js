@@ -28,16 +28,23 @@
                 {data: 'taxable'},
                 {data: 'type'},
                 {data: 'computation_basis'},
-                {data: 'special_holiday_rate'},
-                {data: 'regular_holiday_rate'}
+                {data: 'standard'}
             ],
             columnDefs: [
                 {searchable: false, targets: [0]},
                 {orderable: false, targets: [0]},
                 {
                     targets: 0,
-                    render: function (code) {
-                        var actions = datatable_utilities.getAllDefaultActions(code);
+                    render: function (code, a, rowData) {
+
+                        var actions;
+
+                        if (rowData.standard) {
+                            actions = [datatable_utilities.getDefaultViewAction(code)];
+                        } else {
+                            actions = datatable_utilities.getAllDefaultActions(code);
+                        }
+
                         var view = datatable_utilities.getInlineActionsView(actions);
                         return view;
                     }
@@ -67,7 +74,7 @@
                     targets: 5,
                     render: function (basis) {
 
-                    console.log(basis);
+                        console.log(basis);
 
                         switch (basis) {
                             case "D":
@@ -76,7 +83,7 @@
                                 return "Hour";
                             case "M":
                                 return "Minute";
-                            case "A":
+                            case "EA":
                                 return "Amount";
                             default:
                                 return "";
@@ -84,9 +91,9 @@
                     }
                 },
                 {
-                    targets: [6, 7],
-                    render: function (percent) {
-                        return percent + "%";
+                    targets: [6],
+                    render: function (standard) {
+                        return standard == 1 ? "Yes" : "No";
                     }
                 }
             ]

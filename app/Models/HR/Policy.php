@@ -2,6 +2,8 @@
 
 namespace App\Models\HR;
 
+use App\Models\HR\PolicyPayrollItem;
+use App\Models\Payroll\PayrollItem;
 use App\Models\SGModel;
 
 class Policy extends SGModel {
@@ -17,7 +19,7 @@ class Policy extends SGModel {
     }
 
     public function payrollItems() {
-        return $this->belongsToMany(PayrollItem::class, "policy_payroll_item", "policy_code", "policy_item_code");
+        return $this->belongsToMany(PayrollItem::class, "policy_payroll_item", "policy_code", "payroll_item_code");
     }
 
 }

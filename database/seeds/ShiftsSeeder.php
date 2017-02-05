@@ -2,6 +2,7 @@
 
 use App\Models\HR\Shift;
 use App\Models\HR\ShiftBreak;
+use App\Models\HR\ShiftHasBreak;
 use Illuminate\Database\Seeder;
 
 class ShiftsSeeder extends Seeder {
@@ -31,6 +32,12 @@ class ShiftsSeeder extends Seeder {
         ];
 
         ShiftBreak::insert($breaks);
+
+        $shiftsHasBreaks = [
+            "shift_code"       => "MORNING", "shift_break_code" => "LB"
+        ];
+
+        ShiftHasBreak::insert($shiftsHasBreaks);
     }
 
 }

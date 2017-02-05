@@ -18,7 +18,7 @@
                 caseInsensitive: true
             },
             ajax: {
-                url: baseUrl + "/tax-categories/datatable"
+                url: baseUrl + "/hr/tax-categories/datatable"
             },
             order: [1, "asc"],
             columns: [

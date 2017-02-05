@@ -44,3 +44,12 @@ function datatables_url($url) {
 }
 
 // </editor-fold>
+
+/* * ************************************************************************* */
+// <editor-fold defaultstate="collapsed" desc="Formatters">// 
+
+function default_date_display_format(\DateTime $date) {
+    return $date->format("dddd, MMMM DD YYYY");
+}
+
+// </editor-fold>

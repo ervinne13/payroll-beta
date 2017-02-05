@@ -51,6 +51,10 @@ form_utilities.formToJSON = function ($form) {
             if (moment) {
                 value = moment(value, $(this).data('date-format'))
                         .format(form_utilities.SERVER_DATE_FORMAT);
+
+                if (value == 'Invalid date') {
+                    value = null;
+                }
             } else {
                 console.warn("Date formatting detected but momentjs is not included in the scripts!");
             }
@@ -61,6 +65,10 @@ form_utilities.formToJSON = function ($form) {
             if (moment) {
                 value = moment(value, $(this).data('time-format'))
                         .format(form_utilities.SERVER_TIME_FORMAT);
+
+                if (value == 'Invalid date') {
+                    value = null;
+                }
             } else {
                 console.warn("Date formatting detected but momentjs is not included in the scripts!");
             }
@@ -225,6 +233,8 @@ form_utilities.initializeDefaultProcessing = function ($form, $detailSGTable) {
             }
         } else {
             console.error("Validation failed");
+
+            swal("Error", "Some of the fields has errors. Please check.", "error");
         }
 
     });
