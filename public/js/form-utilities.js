@@ -2,6 +2,7 @@
 
 var form_utilities = {
     // constants
+    SERVER_DATETIME_FORMAT: "YYYY-MM-DD HH:mm:ss",
     SERVER_DATE_FORMAT: "YYYY-MM-DD",
     SERVER_TIME_FORMAT: "HH:mm",
     DISPLAY_DATE_FORMAT: "dddd, MMMM DD YYYY",

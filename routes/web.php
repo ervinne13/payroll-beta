@@ -78,6 +78,7 @@ Route::group(['prefix' => '/hr', 'namespace' => 'Modules\HR', 'middleware' => ['
 Route::group(['prefix' => 'timekeeping', 'namespace' => 'Modules\Timekeeping', 'middleware' => ['auth']], function () {
 
     Route::get('employees/datatable', 'EmployeesController@datatable');
+    Route::get('employees/{employeeCode}/chronolog/datatable', 'EmployeesController@chronologDatatable');
     Route::resource('employees', 'EmployeesController');
 });
 

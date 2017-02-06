@@ -33,6 +33,20 @@ datatable_utilities.renderTime = function (time, type) {
 
 };
 
+datatable_utilities.renderTimeFromDateTime = function (time, type) {    
+
+    // if display or filter data is requested, format the time
+    if (type === 'display' || type === 'filter') {
+        return (moment(time, form_utilities.SERVER_DATETIME_FORMAT).format(form_utilities.DISPLAY_TIME_FORMAT));
+    }
+
+    // Otherwise the data type requested (`type`) is type detection or
+    // sorting data, for which we want to use the raw date value, so just return
+    // that, unaltered
+    return time;
+
+};
+
 //</editor-fold>
 
 

@@ -19,7 +19,7 @@
             },
             order: [1, "asc"],
             columns: [
-                {data: 'id'},
+                {data: 'code'},
                 {data: 'first_name'},
                 {data: 'company_code'},
                 {data: 'location.description', name: 'location.description'},

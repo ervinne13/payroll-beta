@@ -83,26 +83,20 @@
                                     <input type="text" class="form-control date datepicker" placeholder="Ex: 02/15/2016">
                                 </div>
                             </div>                 
+
+                            <input type="checkbox" id="check_include_monthly_processable" name="include_monthly_processable"/>
+                            <label for="check_include_monthly_processable">Include Monthly Processable</label>
+
                         </div>
 
                         <div class="col-lg-6">
-                            <input type="checkbox" id="check_tax" name="tax_deduction"/>
-                            <label for="check_tax">Tax Deduction</label>
-                        </div>
 
-                        <div class="col-lg-6">
-                            <input type="checkbox" id="check_sss" name="sss_deduction" />
-                            <label for="check_sss">SSS Deduction</label>
-                        </div>
+                            <h3>Payroll Setup</h3>
 
-                        <div class="col-lg-6">
-                            <input type="checkbox" id="check_pagibig" name="pagibig_deduction" />
-                            <label for="check_pagibig">PAGIBIG Deduction</label>
-                        </div>
+                            <p>Check "Include Monthly Processable" checkbox to include SSS, PAGIBIG, etc. in the current payroll.</p>
 
-                        <div class="col-lg-6">
-                            <input type="checkbox" id="check_philhealth" name="philhealth_deduction" />
-                            <label for="check_philhealth">Philhealth Deduction</label>
+                            <p>If you are reprocessing this payroll pay period, note that this will only overwrite previously created payroll entries which does NOT include payroll entry adjustments that are manually entered in the "Payroll Entries" module.</p>
+
                         </div>
 
                     </div>

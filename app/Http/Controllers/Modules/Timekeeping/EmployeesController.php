@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Modules\Timekeeping;
 
 use App\Http\Controllers\Controller;
 use App\Models\HR\Employee;
+use App\Models\Payroll\ChronoLog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Yajra\Datatables\Datatables;
 use function view;
 
 class EmployeesController extends Controller {
@@ -18,6 +20,10 @@ class EmployeesController extends Controller {
     public function index() {
         $viewData = $this->getDefaultViewData();
         return view("pages.timekeeping.employees.index", $viewData);
+    }
+
+    public function chronologDatatable($employeeCode) {
+        return Datatables::of(ChronoLog::where("employee_code", $employeeCode))->make(true);
     }
 
     /**
@@ -40,6 +46,7 @@ class EmployeesController extends Controller {
 
         $viewData             = $this->getDefaultViewData();
         $viewData["employee"] = Employee::find($id);
+        $viewData["mode"]     = "view";
 
         return view("pages.timekeeping.employees.form", $viewData);
     }
