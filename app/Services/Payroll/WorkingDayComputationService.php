@@ -166,8 +166,8 @@ class WorkingDayComputationService {
 //        exit();
 
         if (array_key_exists($dateKey, $this->chronoLogMap)) {
-            $chronoLogs = $this->chronoLogMap[$dateKey];
-
+            $chronoLogs = $this->chronoLogMap[$dateKey];            
+            
             if (count($chronoLogs) > 0) {
                 $info["time_in"] = $chronoLogs[0]->entry_time;
             }

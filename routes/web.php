@@ -12,9 +12,10 @@
  */
 
 Route::auth();
+Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('payroll/process');
 });
 
 Route::get('computation-tables/philhealth', 'StarterController@index');
@@ -89,8 +90,13 @@ Route::group(['prefix' => 'timekeeping', 'namespace' => 'Modules\Timekeeping', '
 
 Route::group(['prefix' => 'payroll', 'namespace' => 'Modules\Payroll', 'middleware' => ['auth']], function () {
     Route::get('process', 'ProcessController@index');
+    Route::get('process/{employeeCode}', 'ProcessController@processEmployee');
 
     Route::get('employee/{employeeCode}/payroll-items-amount', 'EmployeePayrollItemsAmountController@index');
+
+    Route::get('entries/{employeeCode}/period/{payPeriod}/json', 'PayrollEntriesController@entriesJSON');
+    Route::get('entries/{employeeCode}/period/{payPeriod}/datatable', 'PayrollEntriesController@datatable');
+    Route::resource('entries', 'PayrollEntriesController');
 
     Route::get('items/datatable', 'PayrollItemsController@datatable');
     Route::resource('items', 'PayrollItemsController');
