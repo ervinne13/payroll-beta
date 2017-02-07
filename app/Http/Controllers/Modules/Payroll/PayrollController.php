@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Modules\Payroll;
 
 use App\Http\Controllers\Controller;
-use App\Models\HR\Employee;
-use App\Models\Payroll\PayrollEntry;
+use App\Models\Payroll\Payroll;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Yajra\Datatables\Facades\Datatables;
 use function response;
-use function view;
 
-class PayrollEntriesController extends Controller {
+class PayrollController extends Controller {
 
     /**
      * Display a listing of the resource.
@@ -20,22 +17,7 @@ class PayrollEntriesController extends Controller {
      * @return Response
      */
     public function index() {
-        $viewData = $this->getDefaultViewData();
-        return view("pages.payroll.payroll-entries.index", $viewData);
-    }
-
-    public function entriesJSON($employeeCode, $payPeriod) {
-        return PayrollEntry::Employee($employeeCode)
-                        ->PayrollPeriod($payPeriod)
-                        ->with('payrollItem')
-                        ->get();
-    }
-
-    public function datatable($employeeCode, $payPeriod) {
-
-        $query = PayrollEntry::Employee($employeeCode)->PayrollPeriod($payPeriod);
-
-        return Datatables::of($query)->make(true);
+        //
     }
 
     /**
@@ -54,7 +36,20 @@ class PayrollEntriesController extends Controller {
      * @return Response
      */
     public function store(Request $request) {
-       
+        try {
+            $payroll = Payroll::find($request->pay_period);
+
+            if (!$payroll) {
+                $payroll = new Payroll();
+            }
+
+            $payroll->fill($request->toArray());
+            $payroll->save();
+
+            return $payroll;
+        } catch (Exception $e) {
+            return response($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -96,17 +91,6 @@ class PayrollEntriesController extends Controller {
      */
     public function destroy($id) {
         //
-    }
-
-    /**
-     * @Override
-     */
-    protected function getDefaultViewData() {
-        $viewData = parent::getDefaultViewData();
-
-        $viewData["employees"] = Employee::OrderBy("first_name")->get();
-
-        return $viewData;
     }
 
 }

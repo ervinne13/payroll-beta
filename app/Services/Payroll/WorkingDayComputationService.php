@@ -47,20 +47,20 @@ class WorkingDayComputationService {
      */
     public function getWorkingDays(Payroll $payroll, Employee $employee) {
 
-        $from     = $payroll->cutoff_start;
-        $to       = $payroll->cutoff_end;
-        $monthEnd = clone $from;
+        $cutoffStart = new \DateTime($payroll->cutoff_start);
+        $cutoffEnd   = new \DateTime($payroll->cutoff_end);
+        $monthEnd    = clone $cutoffStart;
 
         $monthEnd->modify('+1 month');
 
 //        $interval = date_diff($to, $from);
-        $interval = date_diff($monthEnd, $from);
+        $interval = date_diff($monthEnd, $cutoffStart);
         $days     = $interval->format("%a");
 
         //  load possible work schedules of the employee that 
-        $this->loadEmployeeWorkSchedules($employee, $payroll->cutoff_start);
+        $this->loadEmployeeWorkSchedules($employee, $cutoffStart);
         $this->loadShiftMap();
-        $this->loadHolidays($from, $to);
+        $this->loadHolidays($cutoffStart, $cutoffEnd);
         $this->mapEmployeeChronoLog($employee, $payroll);
 
 //        echo json_encode($this->chronoLogMap);
@@ -76,7 +76,7 @@ class WorkingDayComputationService {
         $lates          = 0;
         $breaktimeLates = 0;
 
-        $runningDate = $from;
+        $runningDate = $cutoffStart;
         for ($i = 0; $i < $days; $i ++) {
             //  use get applicable work schedule to get the appropriate work schedule
             //  given the running date. employees may have different working schedules
@@ -102,7 +102,7 @@ class WorkingDayComputationService {
             } else if ($workingDay["working_day"]) {
                 $workingMonthDayCount++;
 
-                if ($runningDate <= $to) {
+                if ($runningDate <= $cutoffEnd) {
                     $workingCutoffDayCount ++;
 
                     if (!$workingDay["present"]) {
@@ -114,7 +114,7 @@ class WorkingDayComputationService {
                 }
             }
 
-            if ($runningDate <= $to) {
+            if ($runningDate <= $cutoffEnd) {
                 array_push($workingDays, $workingDay);
             }
 
@@ -166,8 +166,8 @@ class WorkingDayComputationService {
 //        exit();
 
         if (array_key_exists($dateKey, $this->chronoLogMap)) {
-            $chronoLogs = $this->chronoLogMap[$dateKey];            
-            
+            $chronoLogs = $this->chronoLogMap[$dateKey];
+
             if (count($chronoLogs) > 0) {
                 $info["time_in"] = $chronoLogs[0]->entry_time;
             }

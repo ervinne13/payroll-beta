@@ -41,6 +41,15 @@ class EmployeesController extends Controller {
                         ->make(true);
     }
 
+    public function allActiveJSON(Request $request) {
+
+        if ($request->fields && is_array($request->fields)) {
+            return Employee::Active()->select($request->fields)->get();
+        } else {
+            return Employee::Active()->get();
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *

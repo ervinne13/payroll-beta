@@ -3,13 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="Payroll">
-            <file>file:/C:/xampp/htdocs/others/payroll/routes/web.php</file>
-            <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/Processors/Earnings/MonthlyIncomePayrollItemProcessor.php</file>
-            <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/Processors/Deductions/AbsencesPayrollItemProcessor.php</file>
-            <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/PayrollItemProcessorLookupService.php</file>
-            <file>file:/C:/xampp/htdocs/others/payroll/app/Http/Controllers/Modules/Payroll/ProcessController.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Http/Controllers/Modules/Payroll/PayrollItemsController.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/public/js/pages/payroll/entries/index.js</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/WorkingDayComputationService.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/public/js/pages/timekeeping/employees/index.js</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/resources/views/pages/payroll/payroll-entries/templates.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/public/js/pages/timekeeping/employees/form.js</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Http/Controllers/Modules/Payroll/PayrollEntriesController.php</file>
             <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/PayrollItemProcessingService.php</file>
-            <file>file:/C:/xampp/htdocs/others/payroll/app/Models/HR/Employee.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Http/Controllers/Modules/Payroll/ProcessController.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/database/seeds/SampleChronoLogSeeder.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Models/Payroll/PayrollEntry.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/resources/views/pages/payroll/payroll-entries/index.blade.php</file>
         </group>
     </open-files>
 </project-private>

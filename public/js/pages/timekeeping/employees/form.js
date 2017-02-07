@@ -41,6 +41,7 @@
                 {
                     targets: 3,
                     render: function (type) {
+
                         switch (type) {
                             case "IN":
                                 return "Time In";
@@ -50,6 +51,8 @@
                                 return "Breaktime In";
                             case "BOUT":
                                 return "Breaktime Out";
+                            default:
+                                return "";
                         }
                     }
                 }

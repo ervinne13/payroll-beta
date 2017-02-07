@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class SGModel extends Model {
 
-    public $timestamps   = false;
-    public $incrementing = false;
+    public $timestamps       = false;
+    public $incrementing     = false;
+    protected $isActiveField = "is_active";
+
+    public function scopeActive($query) {
+        return $query->where("is_active", 1);
+    }
 
     public function manyThroughMany($related, $through, $firstKey, $secondKey, $pivotKey) {
         $model        = new $related;

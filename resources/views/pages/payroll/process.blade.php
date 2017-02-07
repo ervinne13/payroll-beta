@@ -1,17 +1,15 @@
-@extends('layouts.bsb-side-nav')
+<?php $uses = ["form-utilities", "datetime-picker"] ?>
 
-@section('css-plugins')
-<link href="{{bsb_plugins_url("bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css")}}" rel="stylesheet">
-@endsection
+@extends('layouts.bsb-side-nav')
 
 @section('js-plugins')
 <script src="{{bsb_plugins_url("jquery-steps/jquery.steps.min.js")}}"></script>
-<script src="{{bsb_plugins_url("momentjs/moment.js")}}"></script>
-<script src="{{bsb_plugins_url("bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js")}}"></script>
 @endsection
 
 @section('js')
-<script src="{{url("js/pages/payroll/process/index.js")}}"></script>
+<script src="{{url("js/helpers.js")}}"></script>
+<script src="{{url("js/modules/payroll-processor.js")}}"></script>
+<script src="{{url("js/pages/payroll/process/processor.js")}}"></script>
 @endsection
 
 @section('content-header')
@@ -43,14 +41,14 @@
 
                     <h1>Payroll Setup</h1>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div id="payroll-setup-field-container" class="col-lg-6">                            
                             <b>Cut-off Start</b>
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">date_range</i>
                                 </span>
                                 <div class="form-line">
-                                    <input type="text" class="form-control date datepicker" placeholder="Ex: 01/11/2016">
+                                    <input name="cutoff_start" data-date-format="dddd, MMMM DD YYYY" type="text" class="payroll-field form-control date datepicker" placeholder="Ex: 01/11/2016">
                                 </div>
                             </div>
 
@@ -60,7 +58,7 @@
                                     <i class="material-icons">date_range</i>
                                 </span>
                                 <div class="form-line">
-                                    <input type="text" class="form-control date datepicker" placeholder="Ex: 01/25/2016">
+                                    <input name="cutoff_end" data-date-format="dddd, MMMM DD YYYY" type="text" class="payroll-field form-control date datepicker" placeholder="Ex: 01/25/2016">
                                 </div>
                             </div>
 
@@ -70,21 +68,21 @@
                                     <i class="material-icons">date_range</i>
                                 </span>
                                 <div class="form-line">
-                                    <input type="text" class="form-control date datepicker" placeholder="Ex: 01/31/2016">
+                                    <input name="pay_period" data-date-format="dddd, MMMM DD YYYY" type="text" class="payroll-field form-control date datepicker" placeholder="Ex: 01/31/2016">
                                 </div>
                             </div>
 
-                            <b>Next Pay Period</b>
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">date_range</i>
-                                </span>
-                                <div class="form-line">
-                                    <input type="text" class="form-control date datepicker" placeholder="Ex: 02/15/2016">
-                                </div>
-                            </div>                 
+                            <!--                            <b>Next Pay Period</b>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons">date_range</i>
+                                                            </span>
+                                                            <div class="form-line">
+                                                                <input name="next_pay_period" data-date-format="dddd, MMMM DD YYYY" type="text" class="form-control date datepicker" placeholder="Ex: 02/15/2016">
+                                                            </div>
+                                                        </div>                 -->
 
-                            <input type="checkbox" id="check_include_monthly_processable" name="include_monthly_processable"/>
+                            <input type="checkbox" id="check_include_monthly_processable" name="include_monthly_processable" class="payroll-field "/>
                             <label for="check_include_monthly_processable">Include Monthly Processable</label>
 
                         </div>
@@ -99,51 +97,22 @@
 
                         </div>
 
-                    </div>
-
-                    <h1>Attendance Processing</h1>
-                    <div>
-
-                        <h4>Progress:</h4>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                <span class="sr-only">40% Complete (success)</span>
-                            </div>
-                        </div>
-
-                        <label>Processing: Doris Tumulak</label>
-
-                        <div class="row">
-                            <div class="col-lg-6 col-lg-offset-3">
-                                <button type="button" class="btn bg-cyan btn-block btn-lg waves-effect">
-                                    Start Processing Attendance
-                                </button>
-                            </div>
-                        </div>
-
-                        <p>
-                            This step will convert the timekeeping entries into payroll items.                                                        
-                        </p>
-
-                        <p>
-                            This will <b>NOT</b> affect adjustment entries, loan entries, etc.
-                        </p>
-                    </div>
+                    </div>                    
 
                     <h1>Payroll Processing</h1>
                     <div>
                         <h4>Progress:</h4>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                <span class="sr-only">85% Complete <i class="fa fa-warning"></i> (Error!)</span>
+                            <div id="payroll-process-progress-bar" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                <!--<span class="sr-only">85% Complete <i class="fa fa-warning"></i> (Error!)</span>-->
                             </div>
                         </div>
 
-                        <label>Processing: Lizeth Batarao</label>
+                        <label id="payroll-process-status-label"></label>
 
                         <div class="row">
                             <div class="col-lg-6 col-lg-offset-3">
-                                <button type="button" class="btn bg-cyan btn-block btn-lg waves-effect">
+                                <button id="action-start-payroll-process" type="button" class="btn bg-cyan btn-block btn-lg waves-effect">
                                     Start Processing Payroll
                                 </button>
                             </div>

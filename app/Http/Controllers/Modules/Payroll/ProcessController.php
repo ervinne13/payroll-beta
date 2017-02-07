@@ -19,18 +19,20 @@ class ProcessController extends Controller {
         return view("pages.payroll.process", $viewData);
     }
 
-    public function processEmployee($employeeCode) {
+    public function processEmployee($employeeCode, $payPeriod) {
 
-        $payroll                  = Payroll::firstOrNew(["pay_period" => "2017-02-15"]);
-        $payroll->cutoff_start    = DateTime::createFromFormat('Y-m-d', "2017-01-26");
-        $payroll->cutoff_end      = DateTime::createFromFormat('Y-m-d', "2017-02-10");
-        $payroll->next_pay_period = DateTime::createFromFormat('Y-m-d', "2017-03-01");
-
-        $payroll->include_monthly_processable = true;
-
-        $payroll->save();
-
+        $payroll  = Payroll::find($payPeriod);
         $employee = Employee::find($employeeCode);
+
+        // <editor-fold defaultstate="collapsed" desc="Validation">
+        if (!$payroll) {
+            return response("Payroll for period {$payPeriod} not found", 404);
+        }
+
+        if (!$employee) {
+            return response("Employee {$employee} ", 404);
+        }
+        // </editor-fold>
 
         $payrollItemComputationSourceProcessingSrvc = new PayrollItemComputationSourceProcessingService();
         $workingDayComputationSrvc                  = new WorkingDayComputationService();
