@@ -5,17 +5,18 @@ namespace App\Http\Controllers\Modules\Payroll;
 use App\Http\Controllers\Controller;
 use App\Models\HR\Employee;
 use App\Models\Payroll\Payroll;
+use App\Services\Payroll\AttendanceSummaryProcessorService;
 use App\Services\Payroll\PayrollItemComputationSourceProcessingService;
 use App\Services\Payroll\PayrollItemProcessingService;
 use App\Services\Payroll\WorkingDayComputationService;
-use DateTime;
+use function response;
 use function view;
 
 class ProcessController extends Controller {
 
     public function index() {
-
-        $viewData = $this->getDefaultViewData();
+        $viewData              = $this->getDefaultViewData();
+        $viewData["employees"] = Employee::active()->get();
         return view("pages.payroll.process", $viewData);
     }
 
@@ -35,9 +36,9 @@ class ProcessController extends Controller {
         // </editor-fold>
 
         $payrollItemComputationSourceProcessingSrvc = new PayrollItemComputationSourceProcessingService();
-        $workingDayComputationSrvc                  = new WorkingDayComputationService();
+        $attendanceSummaryProcessingSrvc            = new AttendanceSummaryProcessorService();
 
-        return (new PayrollItemProcessingService($payrollItemComputationSourceProcessingSrvc, $workingDayComputationSrvc))
+        return (new PayrollItemProcessingService($payrollItemComputationSourceProcessingSrvc, $attendanceSummaryProcessingSrvc))
                         ->processPayrollItems($employee, $payroll);
     }
 

@@ -2,8 +2,10 @@
 
 namespace App\Services\Payroll;
 
+use App\Models\HR\AttendanceSummary;
 use App\Models\Payroll\PayrollEntry;
 use App\Models\Payroll\PayrollItem;
+use SebastianBergmann\RecursionContext\Exception;
 
 /**
  * Description of PayrollItemComputationSourceProcessingService
@@ -38,24 +40,24 @@ class PayrollItemComputationSourceProcessingService {
      * 
      * @param PayrollItem $dependent
      * @param PayrollItem $dependency
-     * @param type $workingDayComputation
+     * @param type $attendanceSummary
      */
-    public function getComputedAmount(PayrollItem $dependent, PayrollItem $dependency, PayrollEntry $generatedDependencyEntry, $workingDayComputation) {
+    public function getComputedAmount(PayrollItem $dependent, PayrollItem $dependency, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendanceSummary) {
 
         if ($dependency->computation_basis == "MON") {
-            return $this->getAmountFromMonth($dependent, $generatedDependencyEntry, $workingDayComputation);
+            return $this->getAmountFromMonth($dependent, $generatedDependencyEntry, $attendanceSummary);
         }
 
         if ($dependency->computation_basis == "DAY") {
-            return $this->getAmountFromDay($dependent, $generatedDependencyEntry, $workingDayComputation);
+            return $this->getAmountFromDay($dependent, $generatedDependencyEntry, $attendanceSummary);
         }
 
         if ($dependency->computation_basis == "HR") {
-            return $this->getAmountFromHr($dependent, $generatedDependencyEntry, $workingDayComputation);
+            return $this->getAmountFromHr($dependent, $generatedDependencyEntry, $attendanceSummary);
         }
     }
 
-    private function getAmountFromMonth(PayrollItem $dependent, PayrollEntry $generatedDependencyEntry, $workingDayComputation) {
+    private function getAmountFromMonth(PayrollItem $dependent, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendanceSummary) {
 
         //  Month -> Month
         if ($dependent->computation_basis == "MON") {
@@ -64,27 +66,27 @@ class PayrollItemComputationSourceProcessingService {
 
         //   Month -> Day = A / MD
         if ($dependent->computation_basis == "DAY") {
-            return $generatedDependencyEntry->amount / $workingDayComputation["workingMonthDayCount"];
+            return $generatedDependencyEntry->amount / $attendanceSummary->working_days;
         }
 
         //   Month -> Hour = A / (MD * 8)
         if ($dependent->computation_basis == "HR") {
-            return $generatedDependencyEntry->amount / ($workingDayComputation["workingMonthDayCount"] * 8);
+            return $generatedDependencyEntry->amount / ($attendanceSummary->month_days * 8);
         }
 
         //   Month -> Minute = A / (MD * 8 * 60)
         if ($dependent->computation_basis == "MIN") {
-            return $generatedDependencyEntry->amount / ($workingDayComputation["workingMonthDayCount"] * 8 * 60);
+            return $generatedDependencyEntry->amount / ($attendanceSummary->month_days * 8 * 60);
         }
 
         throw new Exception("Unrecognized computation basis {$dependent->computation_basis}");
     }
 
-    private function getAmountFromDay(PayrollItem $dependent, PayrollEntry $generatedDependencyEntry, $workingDayComputation) {
+    private function getAmountFromDay(PayrollItem $dependent, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendaceSummary) {
 
         //  Day -> Mon = A * MD
         if ($dependent->computation_basis == "MON") {
-            return $generatedDependencyEntry->amount * $workingDayComputation["workingMonthDayCount"];
+            return $generatedDependencyEntry->amount * $attendaceSummary->month_days;
         }
 
         //   Day -> Day
@@ -105,11 +107,11 @@ class PayrollItemComputationSourceProcessingService {
         throw new Exception("Unrecognized computation basis {$dependent->computation_basis}");
     }
 
-    private function getAmountFromHr(PayrollItem $dependent, PayrollEntry $generatedDependencyEntry, $workingDayComputation) {
+    private function getAmountFromHr(PayrollItem $dependent, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendanceSummary) {
 
         //  Hour -> Mon = A * MD * 8
         if ($dependent->computation_basis == "MON") {
-            return $generatedDependencyEntry->amount * $workingDayComputation["workingMonthDayCount"];
+            return $generatedDependencyEntry->amount * $attendanceSummary->month_days;
         }
 
         //   Hour-> Day = A * 8

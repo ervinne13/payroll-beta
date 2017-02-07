@@ -1,0 +1,45 @@
+@media print {
+    .open-border-right {
+        border-left: solid black 1px;
+        border-top: solid black 1px;
+        border-bottom: solid black 1px;               
+    }
+
+    .border-bottom {
+        border-bottom: solid black 1px;
+    }
+
+    .border-bottom-thick {
+        border-bottom: solid black 2px;
+    }
+
+    .border-top-bottom {
+        border-top: solid black 1px;
+        border-bottom: solid black 1px;
+    }
+
+    .payroll-detail-col {
+        width: 200px;
+        padding-right: 8px;
+    }
+
+    .payslip-table td {
+        width: 200px;
+    }
+
+    .signature-row {
+        height: 90px;
+    }
+
+    .table-border-all {
+        border: solid black 1px;
+    }
+
+    .table-border-all td {
+        border: solid black 1px;
+    }
+
+    .signature-table td {
+        text-align: center;
+    }
+}

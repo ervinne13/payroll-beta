@@ -18,12 +18,12 @@ class EmployeeSeeder extends Seeder {
      */
     public function run() {
 
-        $employeeNames = [
-            ["first_name" => "Put first name here", "last_name" => "put last name here"],
-            ["first_name" => "Put first name 2nd employee here", "last_name" => "put last name 2nd employee  here"],
-                //  and so on
-                //  dito nio type
-        ];
+//        $employeeNames = [
+//            ["first_name" => "Put first name here", "last_name" => "put last name here"],
+//            ["first_name" => "Put first name 2nd employee here", "last_name" => "put last name 2nd employee  here"],
+//                //  and so on
+//                //  dito nio type
+//        ];
 
         $generatedEmployees              = [];
         $employeeWorkSchedules           = [];
@@ -31,7 +31,8 @@ class EmployeeSeeder extends Seeder {
 
         $code = 20170120000;
 
-        for ($i = 0; $i < count($employeeNames); $i++) {
+//        for ($i = 0; $i < count($employeeNames); $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $faker = Factory::create();
 
             $position    = $faker->randomElement(Position::all()->toArray());
@@ -46,9 +47,11 @@ class EmployeeSeeder extends Seeder {
 
             $employeeData = [
                 "code"              => $code,
-                "first_name"        => $employeeNames[i]["first_name"],
+//                "first_name"        => $employeeNames[$i]["first_name"],
+                "first_name"        => $faker->firstName,
                 "middle_name"       => "",
-                "last_name"         => $employeeNames[i]["last_name"],
+                "last_name"         => $faker->lastName,
+//                "last_name"         => $employeeNames[$i]["last_name"],
                 "email"             => $faker->email,
                 "address"           => $faker->address,
                 "birth_date"        => $faker->dateTimeBetween('-30 years'),

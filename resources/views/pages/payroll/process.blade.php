@@ -24,18 +24,7 @@
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
-            <div class="body">
-
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label>Approved By:</label>
-                            <div class="form-line">
-                                <input type="text" name="approved_by" class="form-control" placeholder="Please provide the approvers name">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="body">              
 
                 <div id="wizard">
 
@@ -72,15 +61,26 @@
                                 </div>
                             </div>
 
-                            <!--                            <b>Next Pay Period</b>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">
-                                                                <i class="material-icons">date_range</i>
-                                                            </span>
-                                                            <div class="form-line">
-                                                                <input name="next_pay_period" data-date-format="dddd, MMMM DD YYYY" type="text" class="form-control date datepicker" placeholder="Ex: 02/15/2016">
-                                                            </div>
-                                                        </div>                 -->
+                            <div class="form-group">
+                                <label>Approved By:</label>
+                                <div class="form-line">
+                                    <input type="text" name="approved_by" class="form-control" placeholder="Please provide the approver's name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Received By:</label>
+                                <div class="form-line">
+                                    <input type="text" name="received_by" class="form-control" placeholder="Please provide the receiver's name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Prepared By:</label>
+                                <div class="form-line">
+                                    <input type="text" readonly name="prepared_by" class="form-control" value="{{Auth::user()->display_name}}">
+                                </div>
+                            </div>
 
                             <input type="checkbox" id="check_include_monthly_processable" name="include_monthly_processable" class="payroll-field "/>
                             <label for="check_include_monthly_processable">Include Monthly Processable</label>
@@ -118,7 +118,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
+<!--                        <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
                             <div class="panel-group full-body" id="error-accordion-container" role="tablist" aria-multiselectable="true">
                                 <div class="panel panel-col-pink">
                                     <div class="panel-heading" role="tab">
@@ -145,7 +145,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
                     </div>
 

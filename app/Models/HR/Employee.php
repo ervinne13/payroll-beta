@@ -70,6 +70,19 @@ class Employee extends SGModel {
     // </editor-fold>    
 
     /*     * ************************************************************************* */
+    // <editor-fold defaultstate="collapsed" desc="Scopes">
+
+    public function scopeAlphabeticalFirstName($query) {
+        return $query->orderBy("first_name");
+    }
+
+    public function scopeAlphabeticalLastName($query) {
+        return $query->orderBy("last_name");
+    }
+
+    // </editor-fold>
+
+    /*     * ************************************************************************* */
     // <editor-fold defaultstate="collapsed" desc="Relationships">
 
     public function location() {

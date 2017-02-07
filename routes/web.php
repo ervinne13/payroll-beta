@@ -105,6 +105,15 @@ Route::group(['prefix' => 'payroll', 'namespace' => 'Modules\Payroll', 'middlewa
 });
 
 // </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="Reports">
+
+Route::group(['prefix' => 'reports', 'namespace' => 'Modules\Reports', 'middleware' => ['auth']], function () {
+
+    Route::get('payslip', 'PayslipController@index');
+    Route::get('payslip/{employeeCode}/period/{payPeriod}', 'PayslipController@employee');
+});
+// </editor-fold>
+
 
 /* * ************************************************************************* */
 // <editor-fold defaultstate="collapsed" desc="Security">

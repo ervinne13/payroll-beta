@@ -100,8 +100,8 @@
 
     function savePayroll(callback) {
         form_utilities.useIntegerForBooleanValues = true;
-//        currentlyProcessingPayroll = form_utilities.formToJSON($('#payroll-setup-field-container'));
-        currentlyProcessingPayroll = getTestPayrollData();
+        currentlyProcessingPayroll = form_utilities.formToJSON($('#payroll-setup-field-container'));
+//        currentlyProcessingPayroll = getTestPayrollData();
         var url = baseUrl + "/payroll/payroll";
 
         $.post(url, currentlyProcessingPayroll, function (response) {

@@ -18,7 +18,7 @@ return [
 //    'author_link'     => "https://www.facebook.com/ervinne.sodusta",
     'author_name'     => "Jeff Navarro Alacapa",
 //    'author_name'     => "Ervinne Sodusta",
-    'organization'    => "Profile Overseas Manpower Services, Inc. 2002",
+    'organization'    => "Profile Overseas Manpower Services, Inc.",
 //    'organization'    => "Stargate Business Solutions Inc.",
     /*
       |--------------------------------------------------------------------------

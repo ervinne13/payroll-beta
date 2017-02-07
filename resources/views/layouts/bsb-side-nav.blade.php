@@ -25,7 +25,7 @@
         @include('layouts.parts.page-loader')
 
         <!-- Overlay is responsible for "darkening" the content view once a sidebar is opened-->
-        <div class="overlay"></div>
+        <div class="overlay "></div>
 
         @include('layouts.parts.static-topnav')
 

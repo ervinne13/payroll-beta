@@ -2,6 +2,7 @@
 
 namespace App\Services\Payroll;
 
+use App\Models\HR\AttendanceSummary;
 use App\Models\HR\Employee;
 use App\Models\Payroll\Payroll;
 use App\Models\Payroll\PayrollEntry;
@@ -18,14 +19,16 @@ use Illuminate\Support\Facades\DB;
 class PayrollItemProcessingService {
 
     /** @var WorkingDayComputationService */
-    protected $workingDayComputationService;
+//    protected $workingDayComputationService;
+    protected $attendanceSummaryProcessorService;
 
     /** @var PayrollItemComputationSourceProcessingService */
     protected $payrollItemComputationSourceProcessingService;
 
-    public function __construct(PayrollItemComputationSourceProcessingService $payrollItemComputationSourceProcessingService, WorkingDayComputationService $workingDayComputationService) {
+    public function __construct(PayrollItemComputationSourceProcessingService $payrollItemComputationSourceProcessingService, AttendanceSummaryProcessorService $attendanceSummaryProcessorService) {
         $this->payrollItemComputationSourceProcessingService = $payrollItemComputationSourceProcessingService;
-        $this->workingDayComputationService                  = $workingDayComputationService;
+//        $this->workingDayComputationService                  = $workingDayComputationService;
+        $this->attendanceSummaryProcessorService             = $attendanceSummaryProcessorService;
     }
 
     public function processPayrollItems(Employee $employee, Payroll $payroll) {
@@ -37,7 +40,10 @@ class PayrollItemProcessingService {
                     ->where("payroll_generated", 1)
                     ->delete();
 
-            $workingDayComputation = $this->workingDayComputationService->getWorkingDays($payroll, $employee);
+            $attendanceSummary                     = $this->attendanceSummaryProcessorService->generateAttendanceSummary($payroll, $employee);
+            $attendanceSummary->employee_code      = $employee->code;
+            $attendanceSummary->payroll_pay_period = $payroll->pay_period;
+
 
             //  adjustments and manually entered payroll entries can also be used
             //  as dependency
@@ -47,6 +53,7 @@ class PayrollItemProcessingService {
                 $dependencyMap[$dependency->code] = $dependency;
             }
 
+
             //  use remove duplicates as workaround for duplicating payroll item
             //  when joining with employee payroll item computation
             $payrollItems = $this->removeDuplicates(PayrollItem::
@@ -54,7 +61,19 @@ class PayrollItemProcessingService {
                             ->get()
             );
 
-            $generatedPayrollEntries = $this->processPayrollItemsRecursively($employee, $payroll, $workingDayComputation, $payrollItems, $dependencyMap, []);
+            $rates = $this->getRates($payrollItems, $attendanceSummary);
+
+            if ($rates) {
+                $attendanceSummary->basic_rate  = $rates["basic"];
+                $attendanceSummary->daily_rate  = $rates["daily"];
+                $attendanceSummary->cutoff_rate = $rates["cutoff"];
+
+                $attendanceSummary->save();
+            } else {
+                throw new Exception("Salary of employee {$employee->code} not found");
+            }
+
+            $generatedPayrollEntries = $this->processPayrollItemsRecursively($employee, $payroll, $attendanceSummary, $payrollItems, $dependencyMap, []);
 
             DB::commit();
 
@@ -79,7 +98,34 @@ class PayrollItemProcessingService {
         return $cleanPayrollItems;
     }
 
-    private function processPayrollItemsRecursively(Employee $employee, Payroll $payroll, $workingDayComputation, $payrollItemStack, $dependencyMap, $generatedPayrollEntries) {
+    private function getRates($payrollItems, AttendanceSummary $attendanceSummary) {
+        foreach ($payrollItems AS $payrollItem) {
+            if ($payrollItem->payslip_display_string == "Salary") {
+                $rates = [
+                    "basic"  => 0,
+                    "cutoff" => 0,
+                    "daily"  => 0,
+                ];
+
+                switch ($payrollItem->computation_basis) {
+                    case "MON":
+                        $rates["basic"]  = $payrollItem->amount;
+                        $rates["cutoff"] = $payrollItem->amount / 2;
+                        $rates["daily"]  = $payrollItem->amount / $attendanceSummary->month_days;
+                        break;
+                    case "DAY":
+                        $rates["basic"]  = $payrollItem->amount;
+                        $rates["cutoff"] = $payrollItem->amount * $attendanceSummary * present;
+                        $rates["daily"]  = $payrollItem->amount;
+                        break;
+                }
+
+                return $rates;
+            }
+        }
+    }
+
+    private function processPayrollItemsRecursively(Employee $employee, Payroll $payroll, AttendanceSummary $attendanceSummary, $payrollItemStack, $dependencyMap, $generatedPayrollEntries) {
 
         if (count($payrollItemStack) <= 0) {
             //  stack is now empty, our job here is done, stop recursion
@@ -97,7 +143,7 @@ class PayrollItemProcessingService {
         $payrollEntry->payroll_generated  = true;
 
         //  get payroll entry qty
-        $qty = $this->getPayrollItemQty($payrollItem, $payroll, $workingDayComputation);
+        $qty = $this->getPayrollItemQty($payrollItem, $payroll, $attendanceSummary);
 
         $payrollEntry->qty = $qty;
 
@@ -124,7 +170,7 @@ class PayrollItemProcessingService {
                 $this->validateDependency($payrollItem, $payrollItemStack, $dependencyMap);
 
                 $dependency           = $dependencyMap[$payrollItem->computation_source];
-                $payrollEntry->amount = $this->payrollItemComputationSourceProcessingService->getComputedAmount($payrollItem, $dependency, $dependency->payrollEntry, $workingDayComputation);
+                $payrollEntry->amount = $this->payrollItemComputationSourceProcessingService->getComputedAmount($payrollItem, $dependency, $dependency->payrollEntry, $attendanceSummary);
             }
 
             //  for reference in the next iteration
@@ -141,10 +187,10 @@ class PayrollItemProcessingService {
 //            echo "Skipped {$payrollItem->description}";
         }
 
-        return $this->processPayrollItemsRecursively($employee, $payroll, $workingDayComputation, $payrollItemStack, $dependencyMap, $generatedPayrollEntries);
+        return $this->processPayrollItemsRecursively($employee, $payroll, $attendanceSummary, $payrollItemStack, $dependencyMap, $generatedPayrollEntries);
     }
 
-    private function getPayrollItemQty(PayrollItem $payrollItem, Payroll $payroll, $workingDayComputation) {
+    private function getPayrollItemQty(PayrollItem $payrollItem, Payroll $payroll, AttendanceSummary $attendanceSummary) {
 
         //  monthly processables (SSS, Philhealth, etc.)
         if ($payrollItem->monthly_processable) {
@@ -153,33 +199,32 @@ class PayrollItemProcessingService {
 
         //  working day computation based payroll items
         switch ($payrollItem->code) {
-            case "STD_D_A": return $workingDayComputation["absences"];
-            case "STD_D_HDA": return $workingDayComputation["halfDayAbsences"];
-            case "STD_D_BTL": return $workingDayComputation["breaktimeLates"];
-            case "STD_D_LU": return $workingDayComputation["lates"];
-            case "STD_E_TCO": return $workingDayComputation["tardinessConvertedToOvertime"];
-            case "STD_E_GP": return $workingDayComputation["gracePeriod"];
+            case "STD_D_A": return $attendanceSummary->absent;
+            case "STD_D_HDA": return $attendanceSummary->halfday_absent;
+            case "STD_D_BTL": return $attendanceSummary->breaktime_late;
+            case "STD_D_LU": return $attendanceSummary->late;
+            case "STD_E_TCO": return 0; // TODO
+            case "STD_E_GP": return 0; // TODO
         }
 
         //  per day based payroll items
-        if ($payrollItem->code == "STD_E_GP") {
-            $gracePeriods = 0;
-            foreach ($workingDayComputation["workingDays"] AS $workingDay) {
-                if ($workingDay["working_day"]) {   //  if there is work for this day
-                }
-            }
-        }
-
+//        if ($payrollItem->code == "STD_E_GP") {
+//            $gracePeriods = 0;
+//            foreach ($attendanceSummary["workingDays"] AS $workingDay) {
+//                if ($workingDay["working_day"]) {   //  if there is work for this day
+//                }
+//            }
+//        }
         //  income based payroll items
         switch ($payrollItem->computation_basis) {
             //  per cutoff = half of the employee's salary
             case "MON": return 0.5;
             //  qty = how many days is the empoyee present
-            case "DAY": return $workingDayComputation["workingCutoffDayCount"] - $workingDayComputation["absences"];
+            case "DAY": return $attendanceSummary->present;
 
-            case "HR": return $workingDayComputation["minutesWorked"] / 60;
+            case "HR": return ($attendanceSummary->present / 8) - (($attendanceSummary->late + $attendanceSummary->breaktime_late) / 60);
 
-            case "MIN": return $workingDayComputation["minutesWorked"];
+            case "MIN": return ($attendanceSummary->present / (8 * 60)) - (($attendanceSummary->late + $attendanceSummary->breaktime_late));
 
             case "EA": return 1;
         }
