@@ -47,8 +47,8 @@ class EmployeeSeeder extends Seeder {
             $employeeData = [
                 "code"              => $code,
                 "first_name"        => $employeeNames[i]["first_name"],
-                "middle_name"       => $employeeNames[i]["last_name"],
-                "last_name"         => $faker->lastName,
+                "middle_name"       => "",
+                "last_name"         => $employeeNames[i]["last_name"],
                 "email"             => $faker->email,
                 "address"           => $faker->address,
                 "birth_date"        => $faker->dateTimeBetween('-30 years'),
