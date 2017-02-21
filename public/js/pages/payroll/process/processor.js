@@ -1,5 +1,5 @@
 
-/* global PayrollProcessor, form_utilities, baseUrl */
+/* global PayrollProcessor, form_utilities, baseUrl, employees */
 
 (function () {
 
@@ -74,9 +74,27 @@
             payrollQueuedForProcessing = false;
         });
 
-        $('#action-start-payroll-process').click(function () {            
+        $('#action-start-payroll-process').click(function () {
             displayPayrollProcessProgress(0);
             payrollProcessor.processPayroll(currentlyProcessingPayroll.pay_period);
+        });
+
+        $('#action-start-single-payroll-process').click(function () {
+
+            var selectedEmployee = null;
+            var selectedEmployeeCode = $('[name=employee_code]').val();
+            for (var i in employees) {
+                if (selectedEmployeeCode == employees[i].code) {
+                    selectedEmployee = employees[i];
+                }
+            }
+
+            displayPayrollProcessProgress(0);
+            payrollProcessor.payPeriod = currentlyProcessingPayroll.pay_period;
+            payrollProcessor.processEmployee(selectedEmployee)
+                    .then(function() {
+                        swal("Success", "Payroll Processed", "success");
+                    });
         });
     }
 
@@ -155,7 +173,7 @@
     }
 
     function onProcessError(error) {
-        enablePayrollProcessingActions(true);        
+        enablePayrollProcessingActions(true);
         swal("Error", error.responseText, "error");
 
         displayPayrollProcessStatus("Error");

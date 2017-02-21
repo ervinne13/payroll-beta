@@ -95,6 +95,8 @@ Route::group(['prefix' => 'payroll', 'namespace' => 'Modules\Payroll', 'middlewa
     Route::get('process', 'ProcessController@index');
     Route::get('process/{employeeCode}/period/{payPeriod}', 'ProcessController@processEmployee');
 
+    Route::get('process-single', 'ProcessController@processSingle');
+    
     Route::get('employee/{employeeCode}/payroll-items-amount', 'EmployeePayrollItemsAmountController@index');
 
     Route::get('entries/{employeeCode}/period/{payPeriod}/json', 'PayrollEntriesController@entriesJSON');

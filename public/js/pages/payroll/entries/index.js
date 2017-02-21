@@ -56,7 +56,7 @@
                 try {
                     html += payrollEntryRowTemplate(payrollEntries[i]);
 
-                    var amount = payrollEntries[i].amount;
+                    var amount = payrollEntries[i].amount * payrollEntries[i].qty;
                     if (payrollEntries[i].payroll_item.type == "D") {
                         amount = amount * -1;
                     }

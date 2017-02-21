@@ -8,7 +8,7 @@
 
 @section('js')
 
-@include("pages.reports.payslip.templates.print-details")
+@include("pages.reports.absence-and-tardiness.templates")
 
 <script src="{{url("js/helpers.js")}}"></script>
 <script src="{{url("vendor/underscore/underscore.js")}}"></script>
@@ -56,11 +56,14 @@
                     </select> 
                 </span>               
 
-                <div class="pull-right">
-                    <button id="action-print" class="btn bg-success waves-effect">
-                        <i class="fa fa-print"></i> Print
-                    </button>
-                </div>
+                <span class="col-lg-12">
+                    <div class="pull-right">
+                        <button id="action-print" class="btn bg-success waves-effect">
+                            <i class="fa fa-print"></i> Print
+                        </button>
+                    </div>                    
+                </span>
+
                 <div class="clearfix"></div>
             </div>
             <div id="printout-container" class="body">

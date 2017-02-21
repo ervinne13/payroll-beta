@@ -17,6 +17,14 @@ class ProcessController extends Controller {
     public function index() {
         $viewData              = $this->getDefaultViewData();
         $viewData["employees"] = Employee::active()->get();
+        $viewData["mode"]      = "process_multiple";
+        return view("pages.payroll.process", $viewData);
+    }
+
+    public function processSingle() {
+        $viewData              = $this->getDefaultViewData();
+        $viewData["employees"] = Employee::active()->get();
+        $viewData["mode"]      = "process_single";
         return view("pages.payroll.process", $viewData);
     }
 

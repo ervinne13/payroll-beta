@@ -128,11 +128,11 @@
                                         <span>Work Schedules</span>
                                     </a>
                                 </li>
-                                <li>
+<!--                                <li>
                                     <a href="{{url("hr/leave-types")}}" class=" waves-effect waves-block">
                                         <span>Leave Types</span>
                                     </a>
-                                </li>
+                                </li>-->
                                 <!--                                <li>
                                                                     <a href="{{url("hr/loan-types")}}" class=" waves-effect waves-block">
                                                                         <span>Loans </span>

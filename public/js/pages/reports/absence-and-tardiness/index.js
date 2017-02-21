@@ -3,7 +3,12 @@
 
 (function () {
 
+    var reportTableTemplate;
+
     $(document).ready(function () {
+
+        reportTableTemplate = _.template($('#report-table-template').html());
+
         initializeUI();
         initializeEvents();
     });
@@ -36,6 +41,7 @@
         if (dateFrom && dateTo && employeeCode) {
             var url = baseUrl + "/reports/absence-tardiness/" + employeeCode + "/from/" + dateFrom + "/to/" + dateTo;
             $.get(url, function (report) {
+                report = JSON.parse(report);
                 console.log(report);
 
                 setHeaderData(report);
@@ -49,11 +55,15 @@
     }
 
     function setHeaderData(report) {
-
+        $('[content-source=display_name]').html(report.employee.first_name + " " + report.employee.last_name);
+        $('[content-source=position_name]').html(report.employee.position.name);
     }
 
     function setDetailsData(report) {
-
+        var html = reportTableTemplate(report);
+        
+        $('#absence-and-tardiness-details-table-container').html(html);
+        
     }
 
 })();

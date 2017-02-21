@@ -35,28 +35,8 @@
 
         $('#action-print').click(function () {
 
-
             window.print();
 
-//            var newWindow = window.open('', 'PRINT', 'height=400,width=600');
-//
-//            newWindow.document.write('<html><head><title>' + document.title + '</title>');
-//            newWindow.document.write('<link href="http://payroll.local.com/bower_components/adminbsb-materialdesign/plugins/bootstrap/css/bootstrap.css" rel="stylesheet"  media="print">');
-//            newWindow.document.write('<link href="http://payroll.local.com/bower_components/adminbsb-materialdesign/css/themes/all-themes.css" rel="stylesheet"  media="print">');
-//            newWindow.document.write('<link rel="stylesheet" href="http://payroll.local.com/css/app.css" media="print">');
-//            newWindow.document.write('<link rel="stylesheet" href="http://payroll.local.com/css/pages/reports/payslip/payslip-print.css" media="print">');
-//
-//            newWindow.document.write('</head><body>');
-//            newWindow.document.write($('#printout-container').html());
-//            newWindow.document.write('</body></html>');
-//
-//            newWindow.document.close(); // necessary for IE >= 10
-//            newWindow.focus(); // necessary for IE >= 10*/
-//
-//            newWindow.print();
-//            newWindow.close();
-//
-//            return true;
         });
     }
 
@@ -119,36 +99,40 @@
 
         for (var i in payslipData.payroll.payroll_entries) {
             var entry = payslipData.payroll.payroll_entries[i];
-            var text = entry.payroll_item.payslip_display_string;
-            if (entry.payroll_item.type == "D" && exemptEntries.indexOf(text) < 0 && processedEntries.indexOf(entry.payroll_item_code) < 0) {
 
-                if (text in payslipData.deductions) {
-                    payslipData.deductions[text].total += (entry.qty * entry.amount);
-                } else {
-                    payslipData.deductions[text] = {
-                        text: text,
-                        total: entry.qty * entry.amount
-                    };
+            if (entry.payroll_item) {
+
+                var text = entry.payroll_item.payslip_display_string;
+                if (entry.payroll_item.type == "D" && exemptEntries.indexOf(text) < 0 && processedEntries.indexOf(entry.payroll_item_code) < 0) {
+
+                    if (text in payslipData.deductions) {
+                        payslipData.deductions[text].total += (entry.qty * entry.amount);
+                    } else {
+                        payslipData.deductions[text] = {
+                            text: text,
+                            total: entry.qty * entry.amount
+                        };
+                    }
+
+                    payslipData.totalDeductions += entry.qty * entry.amount;
+
+                } else if (exemptEntries.indexOf(text) < 0 && processedEntries.indexOf(entry.payroll_item_code) < 0) {
+
+                    if (text in payslipData.earnings) {
+                        payslipData.earnings[text].total += (entry.qty * entry.amount);
+                    } else {
+                        payslipData.earnings[text] = {
+                            text: text,
+                            total: entry.qty * entry.amount
+                        };
+                    }
+
+                    payslipData.totalEarnings += entry.qty * entry.amount;
                 }
 
-                payslipData.totalDeductions += entry.qty * entry.amount;
-
-            } else if (exemptEntries.indexOf(text) < 0 && processedEntries.indexOf(entry.payroll_item_code) < 0) {
-
-                if (text in payslipData.earnings) {
-                    payslipData.earnings[text].total += (entry.qty * entry.amount);
-                } else {
-                    payslipData.earnings[text] = {
-                        text: text,
-                        total: entry.qty * entry.amount
-                    };
-                }
-
-                payslipData.totalEarnings += entry.qty * entry.amount;
+                processedEntries.push(entry.payroll_item_code);
             }
-            
-            processedEntries.push(entry.payroll_item_code);
-            
+
         }
 
         var html = payslipDetailsTemplate(payslipData);

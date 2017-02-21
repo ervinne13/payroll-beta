@@ -61,22 +61,22 @@ class PayrollItemComputationSourceProcessingService {
 
         //  Month -> Month
         if ($dependent->computation_basis == "MON") {
-            return $generatedDependencyEntry->amount;
+            return $generatedDependencyEntry->amount * 0.5;
         }
 
         //   Month -> Day = A / MD
         if ($dependent->computation_basis == "DAY") {
-            return $generatedDependencyEntry->amount / $attendanceSummary->working_days;
+            return $generatedDependencyEntry->amount * 0.5 / $attendanceSummary->working_days;
         }
 
         //   Month -> Hour = A / (MD * 8)
         if ($dependent->computation_basis == "HR") {
-            return $generatedDependencyEntry->amount / ($attendanceSummary->month_days * 8);
+            return $generatedDependencyEntry->amount * 0.5 / ($attendanceSummary->month_days * 8);
         }
 
         //   Month -> Minute = A / (MD * 8 * 60)
         if ($dependent->computation_basis == "MIN") {
-            return $generatedDependencyEntry->amount / ($attendanceSummary->month_days * 8 * 60);
+            return $generatedDependencyEntry->amount * 0.5 / ($attendanceSummary->month_days * 8 * 60);
         }
 
         throw new Exception("Unrecognized computation basis {$dependent->computation_basis}");

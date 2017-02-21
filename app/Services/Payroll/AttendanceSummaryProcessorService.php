@@ -15,6 +15,7 @@ use App\Models\HR\Shift;
 use App\Models\HR\WorkSchedule;
 use App\Models\Payroll\Payroll;
 use App\Services\Payroll\Exceptions\NoWorkScheduleException;
+use App\Services\Report\AbsenceAndTardiness;
 use DateTime;
 
 /**
@@ -54,8 +55,8 @@ class AttendanceSummaryProcessorService {
 
         $monthEnd->modify('+1 month');
 
-//        $interval = date_diff($monthEnd, $cutoffStart);
-        $interval = date_diff($cutoffEnd, $cutoffStart);
+        $interval = date_diff($monthEnd, $cutoffStart);
+//        $interval = date_diff($cutoffEnd, $cutoffStart);
         $days     = $interval->format("%a");
 
         //  load possible work schedules of the employee that 
@@ -116,8 +117,68 @@ class AttendanceSummaryProcessorService {
         return $attendanceSummary;
     }
 
+    /**
+     * 
+     * @param Employee $employee
+     * @param DateTime $from
+     * @param DateTime $to
+     * @throws NoWorkScheduleException
+     * @returns \App\Services\Report\AbsenceAndTardiness
+     */
     public function getAbsenceAndTardines(Employee $employee, DateTime $from, DateTime $to) {
-        
+        $interval = date_diff($to, $from);
+        $days     = $interval->format("%a");
+
+        $this->loadEmployeeWorkSchedules($employee, $from);
+        $this->loadShiftMap();
+        $this->loadHolidays($from, $to);
+        $this->mapEmployeeChronoLogBetweenDates($employee, $from, $to);
+
+        $report           = new AbsenceAndTardiness();
+        $report->employee = $employee;
+
+        $runningDate = $from;
+        for ($i = 0; $i < $days; $i ++) {
+            //  use get applicable work schedule to get the appropriate work schedule
+            //  given the running date. employees may have different working schedules
+            //  in the middle of their cutoff
+            $workSchedule     = $this->getApplicableWorkSchedule($runningDate);
+            $runningDayOfWeek = $runningDate->format("w") + 1;
+
+            if ($workSchedule == null) {
+                throw new NoWorkScheduleException($employee);
+            }
+
+            $shiftCode = $workSchedule["weekDayShiftMap"][$runningDayOfWeek];
+            $shift     = $this->shiftMap[$shiftCode];
+
+//            echo "{$shiftCode} - {$runningDate->format("Y-m-d")}, ";
+            $workingDay = $this->getWorkingDayInfo($shift, clone $runningDate);
+
+            if ($workingDay["working_day"]) {
+                $report->cutoffDays ++;
+
+                $daySummary = [
+                    "date"         => $runningDate->format("Y-m-d"),
+                    "scheduled_in" => $workingDay["scheduled_in"],
+                    "time_in"      => $workingDay["time_in"]
+                ];
+
+                if ($workingDay["present"]) {
+                    $report->daysPresent++;
+                    $daySummary["status"] = "Present";
+                    $daySummary["late"]   = $workingDay["time_lates"];
+                } else {
+                    $daySummary["status"] = "Absent";
+                }
+
+                array_push($report->days, $daySummary);
+            }
+
+            $runningDate->modify('+1 day');
+        }
+
+        return $report;
     }
 
     private function getWorkingDayInfo(Shift $shift, DateTime $dayDate) {
@@ -152,26 +213,27 @@ class AttendanceSummaryProcessorService {
         if (array_key_exists($dateKey, $this->chronoLogMap)) {
             $chronoLogs = $this->chronoLogMap[$dateKey];
 
-            if (count($chronoLogs) > 0) {
-                $info["time_in"] = $chronoLogs[0]->entry_time;
+            foreach ($chronoLogs AS $chronoLog) {
+                if ($chronoLog->entry_type == "IN") {
+                    $info["time_in"] = $chronoLog->entry_time;
+                } else if ($chronoLog->entry_type == "OUT") {
+                    $info["present"]  = true;
+                    $info["time_out"] = $chronoLog->entry_time;
+                }
             }
 
-            if (count($chronoLogs) >= 2) {
-                //  the employee is present only if he has 2 time entries
-                $info["present"]  = true;
-                $info["time_out"] = $chronoLogs[count($chronoLogs) - 1]->entry_time;
+            if ($info["time_in"] && $info["time_out"]) {
+                $entryTime   = new DateTime($info["time_in"]);
+                $outTime     = new DateTime($info["time_out"]);
+                $scheduledIn = new DateTime($entryTime->format("Y-m-d") . " " . $shift->scheduled_in);
+
+                if ($entryTime > $scheduledIn) {
+                    $dateDiff           = $entryTime->diff($scheduledIn);
+                    $info["time_lates"] = 60 - $dateDiff->i;
+                }
+
+                $totalTimeSpent = $outTime->diff($entryTime);
             }
-
-            $entryTime   = new DateTime($chronoLogs[0]->entry_time);
-            $outTime     = new DateTime($chronoLogs[count($chronoLogs) - 1]->entry_time);
-            $scheduledIn = new DateTime($shift->scheduled_in);
-
-            if ($entryTime > $scheduledIn) {
-                $dateDiff           = $entryTime->diff($scheduledIn);
-                $info["time_lates"] = $dateDiff->i;
-            }
-
-            $totalTimeSpent = $outTime->diff($entryTime);
         }
 
         return $info;
@@ -273,10 +335,13 @@ class AttendanceSummaryProcessorService {
     }
 
     private function mapEmployeeChronoLog(Employee $employee, Payroll $payroll) {
+        $this->mapEmployeeChronoLogBetweenDates($employee, new DateTime($payroll->cutoff_start), new DateTime($payroll->cutoff_end));
+    }
 
+    private function mapEmployeeChronoLogBetweenDates(Employee $employee, DateTime $from, DateTime $to) {
         $chronoLogs = $employee
                 ->ChronoLog()
-                ->BetweenDates($payroll->cutoff_start, $payroll->cutoff_end)
+                ->BetweenDates($from, $to)
                 ->orderBy("entry_time")
                 ->get();
 
