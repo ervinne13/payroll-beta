@@ -49,16 +49,23 @@
             var html = "";
             var totalEarnings = 0;
 
+            console.log(payrollEntries);
+
             for (var i in payrollEntries) {
                 payrollEntries[i].displayAmount = SGFormatter.formatCurrency(payrollEntries[i].amount);
-                html += payrollEntryRowTemplate(payrollEntries[i]);
+                try {
+                    html += payrollEntryRowTemplate(payrollEntries[i]);
 
-                var amount = payrollEntries[i].amount;
-                if (payrollEntries[i].payroll_item.type == "D") {
-                    amount = amount * -1;
+                    var amount = payrollEntries[i].amount;
+                    if (payrollEntries[i].payroll_item.type == "D") {
+                        amount = amount * -1;
+                    }
+
+                    totalEarnings += amount;
+                } catch (e) {
+                    console.error("Error when processing payroll entry", payrollEntries[i]);
+                    console.error(e);
                 }
-
-                totalEarnings += amount;
 
             }
 

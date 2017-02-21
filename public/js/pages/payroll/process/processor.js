@@ -74,8 +74,7 @@
             payrollQueuedForProcessing = false;
         });
 
-        $('#action-start-payroll-process').click(function () {
-            console.log("clicked");
+        $('#action-start-payroll-process').click(function () {            
             displayPayrollProcessProgress(0);
             payrollProcessor.processPayroll(currentlyProcessingPayroll.pay_period);
         });
