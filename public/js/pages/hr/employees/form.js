@@ -83,24 +83,27 @@
             var effectiveDateDisplay = moment(effectiveDate, form_utilities.SERVER_TIME_FORMAT)
                     .format(form_utilities.DISPLAY_DATE_FORMAT);
 
-            var employeeWorkSchedule = {
-                state: "unmodified",
-                workSchedule: employeeWorkSchedules[i].work_schedule_code,
-                workScheduleDisplay: employeeWorkSchedules[i].work_schedule.description,
-                effectiveDate: effectiveDate,
-                effectiveDateDisplay: effectiveDateDisplay
-            };
+            if (employeeWorkSchedules[i].work_schedule) {
 
-            var id = getEmployeeWorkSchedulePsuedoId(employeeWorkSchedule);
+                var employeeWorkSchedule = {
+                    state: "unmodified",
+                    workSchedule: employeeWorkSchedules[i].work_schedule_code,
+                    workScheduleDisplay: employeeWorkSchedules[i].work_schedule.description,
+                    effectiveDate: effectiveDate,
+                    effectiveDateDisplay: effectiveDateDisplay
+                };
 
-            var actions = [
+                var id = getEmployeeWorkSchedulePsuedoId(employeeWorkSchedule);
+
+                var actions = [
 //                datatable_utilities.getDefaultEditAction(id),
-                datatable_utilities.getDefaultDeleteAction(id),
-            ];
+                    datatable_utilities.getDefaultDeleteAction(id),
+                ];
 
-            employeeWorkSchedule.actions = datatable_utilities.getInlineActionsView(actions);
+                employeeWorkSchedule.actions = datatable_utilities.getInlineActionsView(actions);
 
-            addEmployeeWorkScheduleRow(employeeWorkSchedule);
+                addEmployeeWorkScheduleRow(employeeWorkSchedule);
+            }
         }
     }
 
