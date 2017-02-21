@@ -76,6 +76,7 @@
 
         $('#action-start-payroll-process').click(function () {
             console.log("clicked");
+            displayPayrollProcessProgress(0);
             payrollProcessor.processPayroll(currentlyProcessingPayroll.pay_period);
         });
     }
@@ -134,6 +135,7 @@
 
         payrollProcessor.setHandler("employeeProcessing", onEmployeeProcessing);
         payrollProcessor.setHandler("employeeProcessed", onEmployeeProcessed);
+        payrollProcessor.setHandler("processError", onProcessError);
 
     }
 
@@ -151,6 +153,14 @@
         console.log("Progress", percent);
 
         displayPayrollProcessProgress(percent);
+    }
+
+    function onProcessError(error) {
+        enablePayrollProcessingActions(true);        
+        swal("Error", error.responseText, "error");
+
+        displayPayrollProcessStatus("Error");
+        displayPayrollProcessProgressStatus("error");
     }
 
     function displayPayrollProcessStatus(status) {

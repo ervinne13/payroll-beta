@@ -121,6 +121,9 @@ var PayrollProcessor = function () {
             case "employeeProcessed" :
                 this.handler.employeeProcessed = handler;
                 break;
+            case "processError" :
+                this.handler.processError = handler;
+                break;
         }
 
     };
@@ -162,9 +165,9 @@ var PayrollProcessor = function () {
 
     PPp.notifyError = function (error) {
         console.error(error);
-//        if (this.handler.employeeProcessed) {
-//            this.handler.employeeProcessed(employee);
-//        }
+        if (this.handler.processError) {
+            this.handler.processError(error);
+        }
     };
 
     //</editor-fold>

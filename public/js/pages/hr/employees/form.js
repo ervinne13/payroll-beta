@@ -240,13 +240,13 @@
             });
         });
 
-        $('.employee-work-schedule-row[data-state=created],.employee-work-schedule-row[data-state=updated]').each(function () {
-            policyPayrollItemComputations.push({
-                employee_code: $('[name=code]').val(),
-                effective_date: $(this).data('effective-date'),
-                work_schedule_code: $(this).data('work-schedule-code'),
-            });
-        });
+//        $('.employee-work-schedule-row[data-state=created],.employee-work-schedule-row[data-state=updated]').each(function () {
+//            policyPayrollItemComputations.push({
+//                employee_code: $('[name=code]').val(),
+//                effective_date: $(this).data('effective-date'),
+//                work_schedule_code: $(this).data('work-schedule-code'),
+//            });
+//        });
 
         return policyPayrollItemComputations;
     }

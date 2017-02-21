@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="Payroll">
-            <file>file:/C:/xampp/htdocs/others/payroll/public/js/modules/payroll-processor.js</file>
-            <file>file:/C:/xampp/htdocs/others/payroll/resources/views/pages/hr/policies/form.blade.php</file>
-            <file>file:/C:/xampp/htdocs/others/payroll/app/Models/Payroll/PayrollItem.php</file>
-            <file>file:/C:/xampp/htdocs/others/payroll/public/js/pages/hr/policies/index.js</file>
-            <file>file:/C:/xampp/htdocs/others/payroll/app/Http/Controllers/Modules/HR/PoliciesController.php</file>
-            <file>file:/C:/xampp/htdocs/others/payroll/resources/views/pages/hr/policies/printout.blade.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/tests/TaxComputerTest.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Models/HR/Policy.php</file>
+            <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/TaxComputerService.php</file>
         </group>
     </open-files>
 </project-private>

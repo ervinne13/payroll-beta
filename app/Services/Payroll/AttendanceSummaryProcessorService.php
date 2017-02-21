@@ -54,7 +54,8 @@ class AttendanceSummaryProcessorService {
 
         $monthEnd->modify('+1 month');
 
-        $interval = date_diff($monthEnd, $cutoffStart);
+//        $interval = date_diff($monthEnd, $cutoffStart);
+        $interval = date_diff($cutoffEnd, $cutoffStart);
         $days     = $interval->format("%a");
 
         //  load possible work schedules of the employee that 
@@ -113,6 +114,10 @@ class AttendanceSummaryProcessorService {
 
         //  TODO: halfDayAbsences
         return $attendanceSummary;
+    }
+
+    public function getAbsenceAndTardines(Employee $employee, DateTime $from, DateTime $to) {
+        
     }
 
     private function getWorkingDayInfo(Shift $shift, DateTime $dayDate) {

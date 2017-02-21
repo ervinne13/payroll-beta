@@ -18,7 +18,7 @@ class Employee extends SGModel {
     // <editor-fold defaultstate="collapsed" desc="Fillable">
 
     protected $fillable = [
-        "salary",
+        "code",        
         "is_active",
         "email",
         "first_name",

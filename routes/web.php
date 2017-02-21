@@ -114,6 +114,10 @@ Route::group(['prefix' => 'reports', 'namespace' => 'Modules\Reports', 'middlewa
 
     Route::get('payslip', 'PayslipController@index');
     Route::get('payslip/{employeeCode}/period/{payPeriod}', 'PayslipController@employee');
+    
+    Route::get('absence-tardiness', 'AbsenceAndTardinessReportController@index');
+    Route::get('absence-tardiness/{employeeCode}/from/{dateFrom}/to/{dateTo}', 'AbsenceAndTardinessReportController@employee');
+    
 });
 // </editor-fold>
 

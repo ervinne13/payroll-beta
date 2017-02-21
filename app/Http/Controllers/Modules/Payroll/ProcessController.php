@@ -8,7 +8,7 @@ use App\Models\Payroll\Payroll;
 use App\Services\Payroll\AttendanceSummaryProcessorService;
 use App\Services\Payroll\PayrollItemComputationSourceProcessingService;
 use App\Services\Payroll\PayrollItemProcessingService;
-use App\Services\Payroll\WorkingDayComputationService;
+use Exception;
 use function response;
 use function view;
 
@@ -38,8 +38,12 @@ class ProcessController extends Controller {
         $payrollItemComputationSourceProcessingSrvc = new PayrollItemComputationSourceProcessingService();
         $attendanceSummaryProcessingSrvc            = new AttendanceSummaryProcessorService();
 
-        return (new PayrollItemProcessingService($payrollItemComputationSourceProcessingSrvc, $attendanceSummaryProcessingSrvc))
-                        ->processPayrollItems($employee, $payroll);
+        try {
+            return (new PayrollItemProcessingService($payrollItemComputationSourceProcessingSrvc, $attendanceSummaryProcessingSrvc))
+                            ->processPayrollItems($employee, $payroll);
+        } catch (Exception $e) {
+            return response($e->getMessage(), 500);
+        }
     }
 
 }

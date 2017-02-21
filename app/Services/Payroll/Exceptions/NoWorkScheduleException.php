@@ -20,7 +20,7 @@ class NoWorkScheduleException extends Exception {
 
     public function __construct(Employee $employee, $message = "", $code = 0, $previous = null) {
         if ($message == "") {
-            parent::__construct("Work schedule not assigned to employee {$employee->first_name} {$employee->last_name}.", $code, $previous);
+            parent::__construct("Work schedule not assigned to employee {$employee->first_name} {$employee->last_name}. Make sure there is an assigned work schedule that is applicable on or before the cutoff start of the payroll period.", $code, $previous);
         } else {
             parent::__construct($message, $code, $previous);
         }

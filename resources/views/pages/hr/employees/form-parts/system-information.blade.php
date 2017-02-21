@@ -22,7 +22,7 @@
             <div class="form-group">
                 <label>Tax Category <span class="required">*</span></label>
                 <div class="form-line">
-                    <select name="company" required class="form-control selectpicker" data-live-search="true">
+                    <select name="tax_category_code" required class="form-control selectpicker" data-live-search="true">
                         @foreach($taxCategories AS $taxCategory)
                         <?php $selected = $taxCategory->code == $employee->tax_cateogry_code ? "selected" : "" ?>
                         <option {{$selected}} value="{{$taxCategory->code}}">{{$taxCategory->description}}</option>
@@ -61,7 +61,7 @@
             <div class="form-group">
                 <label>Position <span class="required">*</span></label>
                 <div class="form-line">
-                    <select name="position" required class="form-control selectpicker" data-live-search="true">
+                    <select name="position_code" required class="form-control selectpicker" data-live-search="true">
                         @foreach($positions AS $position)
                         <?php $selected = $position->code == $employee->position_code ? "selected" : "" ?>
                         <option {{$selected}} value="{{$position->code}}">{{$position->name}}</option>
@@ -73,7 +73,7 @@
             <div class="form-group">
                 <label>Company <span class="required">*</span></label>
                 <div class="form-line">
-                    <select name="company" required class="form-control selectpicker" data-live-search="true">
+                    <select name="company_code" required class="form-control selectpicker" data-live-search="true">
                         @foreach($companies AS $company)
                         <?php $selected = $company->code == $employee->company_code ? "selected" : "" ?>
                         <option {{$selected}} value="{{$company->code}}">{{$company->name}}</option>
@@ -85,7 +85,7 @@
             <div class="form-group">
                 <label>Location <span class="required">*</span></label>
                 <div class="form-line">
-                    <select name="location" required class="form-control selectpicker" data-live-search="true">
+                    <select name="location_code" required class="form-control selectpicker" data-live-search="true">
                         @foreach($locations AS $location)
                         <?php $selected = $location->code == $employee->location_code ? "selected" : "" ?>
                         <option {{$selected}} value="{{$location->code}}">{{$location->description}}</option>
