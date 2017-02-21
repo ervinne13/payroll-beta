@@ -65,28 +65,28 @@
                         <span>Master Files</span>
                     </a>
                     <ul class="ml-menu">
-<!--                        <li>
-                            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                                <span>Main</span>
-                            </a>
-                            <ul class="ml-menu">
-                                <li>
-                                    <a href="{{url("companies")}}" class=" waves-effect waves-block">
-                                        <span>Companies</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{url("positions")}}" class=" waves-effect waves-block">
-                                        <span>Position</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{url("locations")}}" class=" waves-effect waves-block">
-                                        <span>Locations</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>-->
+                        <!--                        <li>
+                                                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+                                                        <span>Main</span>
+                                                    </a>
+                                                    <ul class="ml-menu">
+                                                        <li>
+                                                            <a href="{{url("companies")}}" class=" waves-effect waves-block">
+                                                                <span>Companies</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{url("positions")}}" class=" waves-effect waves-block">
+                                                                <span>Position</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{url("locations")}}" class=" waves-effect waves-block">
+                                                                <span>Locations</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>-->
 
                         <li>
                             <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
@@ -133,11 +133,11 @@
                                         <span>Leave Types</span>
                                     </a>
                                 </li>
-<!--                                <li>
-                                    <a href="{{url("hr/loan-types")}}" class=" waves-effect waves-block">
-                                        <span>Loans </span>
-                                    </a>
-                                </li>-->
+                                <!--                                <li>
+                                                                    <a href="{{url("hr/loan-types")}}" class=" waves-effect waves-block">
+                                                                        <span>Loans </span>
+                                                                    </a>
+                                                                </li>-->
                             </ul>
                         </li>
 
@@ -154,28 +154,28 @@
                             </ul>
                         </li>                       
 
-                        <!--                        <li>
-                                                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                                                        <span>Computation Tables</span>
-                                                    </a>
-                                                    <ul class="ml-menu">
-                                                        <li>
-                                                            <a href="{{url("computation-tables/tax")}}" class=" waves-effect waves-block">
-                                                                <span>Tax Table</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="{{url("computation-tables/sss")}}" class=" waves-effect waves-block">
-                                                                <span>SSS Table</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="{{url("computation-tables/philhealth")}}" class=" waves-effect waves-block">
-                                                                <span>Philhealth Table</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>-->
+                        <li>
+                            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+                                <span>Computation Tables</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li>
+                                    <a href="{{url("computation-tables/tax")}}" class=" waves-effect waves-block">
+                                        <span>Tax Table</span>
+                                    </a>
+                                </li>
+                                <!--                                <li>
+                                                                    <a href="{{url("computation-tables/sss")}}" class=" waves-effect waves-block">
+                                                                        <span>SSS Table</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="{{url("computation-tables/philhealth")}}" class=" waves-effect waves-block">
+                                                                        <span>Philhealth Table</span>
+                                                                    </a>
+                                                                </li>-->
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <!--*End of Master Files-->

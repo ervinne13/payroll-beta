@@ -37,8 +37,8 @@
                             <tr>
                                 <th></th>
                                 <th>Entry Date</th>
-                                <th>Entry Time</th>
-                                <th>Type</th>
+                                <th>Time In</th>
+                                <th>Time Out</th>
                             </tr>
                         </thead>
                     </table>

@@ -20,12 +20,14 @@
             </div>
 
             <div class="form-group">
-                <label>Salary <span class="required">*</span></label>
+                <label>Tax Category <span class="required">*</span></label>
                 <div class="form-line">
-                    <input value="{{$employee->salary}}"
-                           name="salary"                                        
-                           class="form-control"
-                           type="number" required >
+                    <select name="company" required class="form-control selectpicker" data-live-search="true">
+                        @foreach($taxCategories AS $taxCategory)
+                        <?php $selected = $taxCategory->code == $employee->tax_cateogry_code ? "selected" : "" ?>
+                        <option {{$selected}} value="{{$taxCategory->code}}">{{$taxCategory->description}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 

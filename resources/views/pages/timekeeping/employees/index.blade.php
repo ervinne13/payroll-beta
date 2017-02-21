@@ -22,9 +22,9 @@
                     <thead>
                         <tr>
                             <th></th>                            
+                            <th>Employee Code</th>
                             <th>Name</th>
-                            <th>Company</th>
-                            <th>Location</th>
+                            <th>Position</th>                            
                             <th>Contact 1</th>                            
                             <th>Policy / Work Status</th>
                         </tr>

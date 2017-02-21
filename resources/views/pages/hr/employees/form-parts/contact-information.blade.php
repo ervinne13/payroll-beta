@@ -10,6 +10,17 @@
         <div class="col-md-6">
 
             <div class="form-group">
+                <label>Email <span class="required">*</span></label>
+                <div class="form-line">
+                    <input value="{{$employee->email}}"
+                           name="email" 
+                           placeholder="juandc@poms.com.ph" 
+                           class="form-control"
+                           type="text" maxlength="64" required >
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label>Phone Number </label>
                 <div class="form-line">
                     <input value="{{$employee->phone_number}}"

@@ -1,4 +1,6 @@
 
+/* global baseUrl */
+
 (function () {
 
     $(document).ready(function () {
@@ -19,8 +21,8 @@
             columns: [
                 {data: 'entry_date'},
                 {data: 'entry_date'},
-                {data: 'entry_time'},
-                {data: 'entry_type'}
+                {data: 'time_in'},
+                {data: 'time_out'}
             ],
             columnDefs: [
                 {searchable: false, targets: [0]},
@@ -32,28 +34,10 @@
                     }
                 },
                 {
-                    targets: 2,
+                    targets: [2, 3],
                     render: function (time) {
                         return datatable_utilities.renderTimeFromDateTime(time, "display");
 //                        return time;
-                    }
-                },
-                {
-                    targets: 3,
-                    render: function (type) {
-
-                        switch (type) {
-                            case "IN":
-                                return "Time In";
-                            case "OUT":
-                                return "Time Out";
-                            case "BIN":
-                                return "Breaktime In";
-                            case "BOUT":
-                                return "Breaktime Out";
-                            default:
-                                return "";
-                        }
                     }
                 }
             ]

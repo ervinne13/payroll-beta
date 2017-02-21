@@ -29,3 +29,4 @@
 
 <!--Developer JS-->
 <script src="{{url("js/layout/sidebar-nav.js")}}"></script>
+<script src="{{url("js/helpers.js")}}"></script>

@@ -39,6 +39,8 @@ Route::group(['prefix' => '/', 'namespace' => 'Modules', 'middleware' => ['auth'
 
     Route::get('locations/datatable', 'LocationsController@datatable');
     Route::resource('locations', 'LocationsController');
+
+    Route::get('computation-tables/{type}', 'Payroll\ComputationTablesController@index');
 });
 
 // </editor-fold>
@@ -48,6 +50,7 @@ Route::group(['prefix' => '/', 'namespace' => 'Modules', 'middleware' => ['auth'
 
 Route::group(['prefix' => '/hr', 'namespace' => 'Modules\HR', 'middleware' => ['auth']], function () {
 
+    Route::get('policies/{policyCode}/employee/{employeeId}', 'PoliciesController@employeePolicy');
     Route::get('policies/datatable', 'PoliciesController@datatable');
     Route::resource('policies', 'PoliciesController');
 

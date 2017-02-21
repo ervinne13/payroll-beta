@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder {
             DB::table("module_group")->truncate();
 
             DB::table("tax_category")->truncate();
+            DB::table("tax_computation")->truncate();
 
             DB::table("work_schedule_has_shift")->truncate();
             DB::table("employee_work_schedule")->truncate();
@@ -61,6 +62,7 @@ class DatabaseSeeder extends Seeder {
             $this->call(DefaultUserAccessSeeder::class);
 
             $this->call(TaxCategoriesSeeder::class);
+            $this->call(TaxComputationSeeder::class);
 
             $this->call(ShiftsSeeder::class);
             $this->call(WorkSchedulesSeeder::class);
@@ -69,7 +71,7 @@ class DatabaseSeeder extends Seeder {
             $this->call(PoliciesSeeder::class);
 
             $this->call(PositionsSeeder::class);
-            
+
             $this->call(EmployeeSeeder::class);
 
             DB::commit();

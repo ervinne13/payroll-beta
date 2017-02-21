@@ -7,18 +7,7 @@
     <div class="body">
 
         <!--Column 1-->
-        <div class="col-md-6">
-
-            <div class="form-group">
-                <label>Email <span class="required">*</span></label>
-                <div class="form-line">
-                    <input value="{{$employee->email}}"
-                           name="email" 
-                           placeholder="juandc@poms.com.ph" 
-                           class="form-control"
-                           type="text" maxlength="64" required >
-                </div>
-            </div>
+        <div class="col-md-6">           
 
             <div class="form-group">
                 <label>First Name <span class="required">*</span></label>

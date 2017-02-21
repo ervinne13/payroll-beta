@@ -96,7 +96,8 @@
             <td class="payroll-detail-col align-right">Php</td>
             <td class="payroll-detail-col align-right"></td>
             <td class="payroll-detail-col align-right">
-                <b content-source="net_income"><%= formatCurrency(cutoff_rate + totalEarnings - totalDeductions) %></b>
+                <% var netIncome = formatCurrency(cutoff_rate + totalEarnings - totalDeductions) %>
+                <b content-source="net_income"><%= netIncome > 0 ? netIncome : 0 %></b>
             </td>
         </tr>
 

@@ -34,7 +34,7 @@
                             <tr>
                                 <td>{{$payrollItem->description}}</td>                                
                                 <td>{{$payrollItem->type == "E" ? "Earnings" : "Deduction"}}</td>                                
-                                <td>{{$payrollItem->taxable ? "Yes" : "No"}}</td>                                
+                                <td>{{$payrollItem->taxable ? "Yes" : "No"}}</td>
                             </tr>
                             @endforeach
                         </tbody>

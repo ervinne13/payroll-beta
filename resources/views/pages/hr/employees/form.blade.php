@@ -14,6 +14,7 @@ var employeeWorkSchedules = JSON.parse('{!! $employee->employeeWorkSchedules()->
 </script>
 
 @include('pages.hr.employees.templates.work-schedule-row')
+@include('pages.hr.employees.templates.policy-payroll-item-row')
 
 <script src="{{url("js/pages/hr/employees/form.js")}}"></script>
 @endsection
@@ -35,6 +36,7 @@ var employeeWorkSchedules = JSON.parse('{!! $employee->employeeWorkSchedules()->
             @include('pages.hr.employees.form-parts.contact-information')
             @include('pages.hr.employees.form-parts.system-information')
             @include('pages.hr.employees.form-parts.work-schedule')
+            @include('pages.hr.employees.form-parts.policy-payroll-items')
         </form>
 
         @include('pages.hr.employees.modals.work-schedule')

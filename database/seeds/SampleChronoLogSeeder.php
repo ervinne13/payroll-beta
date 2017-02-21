@@ -19,8 +19,8 @@ class SampleChronoLogSeeder extends Seeder {
         DB::table("chrono_log")->truncate();
 
         $chronoLogTemplate = [
-//            "employee_code"         => "20170120003",
-            "employee_code"         => "20170120011",
+            "employee_code"         => "20170120001",
+//            "employee_code"         => "20170120011",
             "location_code"         => "HO",
             "location_company_code" => "POMS",
         ];

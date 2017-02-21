@@ -23,7 +23,8 @@ class EmployeesController extends Controller {
     }
 
     public function chronologDatatable($employeeCode) {
-        return Datatables::of(ChronoLog::where("employee_code", $employeeCode))->make(true);
+//        return Datatables::of(ChronoLog::where("employee_code", $employeeCode))->make(true);
+        return Datatables::of(ChronoLog::Datatable()->where("employee_code", $employeeCode))->make(true);
     }
 
     /**

@@ -19,8 +19,8 @@ class PayrollItemsSeeder extends Seeder {
 
         $stdDeductions = [
             ["code" => "STD_D_LU", "payslip_display_string" => "Tardiness", "description" => "Lates & Undertimes", "computation_basis" => "MIN", "requires_employee_amount" => 0],
-            ["code" => "STD_D_BTL", "payslip_display_string" => "Tardiness", "description" => "Break Time Lates", "computation_basis" => "MIN", "requires_employee_amount" => 0],
-            ["code" => "STD_D_HDA", "payslip_display_string" => "Tardiness", "description" => "Half Day Absent", "computation_basis" => "MIN", "requires_employee_amount" => 0],
+//            ["code" => "STD_D_BTL", "payslip_display_string" => "Tardiness", "description" => "Break Time Lates", "computation_basis" => "MIN", "requires_employee_amount" => 0],
+//            ["code" => "STD_D_HDA", "payslip_display_string" => "Tardiness", "description" => "Half Day Absent", "computation_basis" => "MIN", "requires_employee_amount" => 0],
             ["code" => "STD_D_A", "payslip_display_string" => "Absent", "description" => "Absences", "computation_basis" => "DAY", "requires_employee_amount" => 0],
             //  Benefits
             ["code" => "STD_D_SSS", "payslip_display_string" => "SSS", "description" => "SSS Deductions", "computation_basis" => "EA", "requires_employee_amount" => 1],
@@ -49,11 +49,11 @@ class PayrollItemsSeeder extends Seeder {
             ["code" => "STD_E_MI", "payslip_display_string" => "Salary", "description" => "Monthly Income", "computation_basis" => "MON", "requires_employee_amount" => 1],
             // adjusts/negates Lates & Undertimes
             ["code" => "STD_E_TCO", "payslip_display_string" => "Tardiness", "description" => "Tardiness Converted to Overtime", "computation_basis" => "MIN", "requires_employee_amount" => 0],
-            ["code" => "STD_E_GP", "payslip_display_string" => "Tardiness", "description" => "Grace Period", "computation_basis" => "MIN", "requires_employee_amount" => 1],
+//            ["code" => "STD_E_GP", "payslip_display_string" => "Tardiness", "description" => "Grace Period", "computation_basis" => "MIN", "requires_employee_amount" => 1],
 //            ["code" => "STD_E_BTGP", "description" => "Break Time Grace Period", "computation_basis" => "MIN", "requires_employee_amount" => 0],
             //  allowances
             ["code" => "STD_E_TA", "payslip_display_string" => "Taxable Allowance", "description" => "Taxable Allowance", "computation_basis" => "EA", "requires_employee_amount" => 1],
-            ["code" => "STD_E_NTA", "payslip_display_string" => "Allowance", "payslip_display_string" => "Tardiness", "description" => "Non Taxable Allowance", "computation_basis" => "EA", "requires_employee_amount" => 1],
+//            ["code" => "STD_E_NTA", "payslip_display_string" => "Allowance", "payslip_display_string" => "Tardiness", "description" => "Non Taxable Allowance", "computation_basis" => "EA", "requires_employee_amount" => 1],
             ["code" => "STD_E_COLA", "payslip_display_string" => "COLA", "description" => "Cost of Living Allowance", "computation_basis" => "EA", "requires_employee_amount" => 1],
         ];
 
@@ -122,7 +122,7 @@ class PayrollItemsSeeder extends Seeder {
             $stdSTDAdjustments[$i]["requires_employee_amount"] = 0;
         }
 
-        PayrollItem::insert($stdSTDAdjustments);
+//        PayrollItem::insert($stdSTDAdjustments);
 
         $stdSTDDeductionAdjustments = [
             ["code" => "STD_D_DAdj", "payslip_display_string" => "Deduction Adjustment", "description" => "Deduction Adjustment"],
@@ -138,7 +138,7 @@ class PayrollItemsSeeder extends Seeder {
             $stdSTDDeductionAdjustments[$i]["requires_employee_amount"] = 0;
         }
 
-        PayrollItem::insert($stdSTDDeductionAdjustments);
+//        PayrollItem::insert($stdSTDDeductionAdjustments);
 
         // </editor-fold>
 
@@ -155,7 +155,7 @@ class PayrollItemsSeeder extends Seeder {
             $others[$i]["requires_employee_amount"] = 0;
         }
 
-        PayrollItem::insert($others);
+//        PayrollItem::insert($others);
 
         //  TAX
         PayrollItem::insert([

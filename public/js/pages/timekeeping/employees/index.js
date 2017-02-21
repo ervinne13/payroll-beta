@@ -5,6 +5,9 @@
 
     $(document).ready(function () {
         initializeTable();
+
+        datatable_utilities.initializeDeleteAction();
+
     });
 
     function initializeTable() {
@@ -17,12 +20,14 @@
             ajax: {
                 url: baseUrl + "/hr/employees/datatable"
             },
-            order: [1, "asc"],
+            order: [2, "asc"],
             columns: [
                 {data: 'code'},
+                {data: 'code'},
                 {data: 'first_name'},
-                {data: 'company_code'},
-                {data: 'location.description', name: 'location.description'},
+                {data: 'position.name'},
+//                {data: 'company_code'},
+//                {data: 'location.description', name: 'location.description'},
                 {data: 'contact_number_1'},
                 {data: 'policy.short_description', name: 'policy.short_description'}
             ],
@@ -32,13 +37,13 @@
                 {
                     targets: 0,
                     render: function (code) {
-                        var actions = [datatable_utilities.getDefaultViewAction(code)];
+                        var actions = [datatable_utilities.getDefaultViewAction()];
                         var view = datatable_utilities.getInlineActionsView(actions);
                         return view;
                     }
                 },
                 {
-                    targets: 1,
+                    targets: 2,
                     render: function (code, display, rowData) {
                         return rowData.first_name + " " + rowData.last_name;
                     }

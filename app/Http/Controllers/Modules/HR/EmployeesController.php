@@ -10,6 +10,7 @@ use App\Models\HR\Policy;
 use App\Models\HR\TaxCategory;
 use App\Models\HR\WorkSchedule;
 use App\Models\Location;
+use App\Models\Payroll\EmployeePayrollItemComputation;
 use App\Models\Position;
 use Exception;
 use Illuminate\Http\Request;
@@ -174,6 +175,11 @@ class EmployeesController extends Controller {
                 EmployeeWorkSchedule::insert($request->modifiedWorkSchedules);
             }
 
+            if ($request->modifiedPolicyPayrollItemComputations) {
+                EmployeePayrollItemComputation::where("employee_code", $employee->code)->delete();
+                EmployeePayrollItemComputation::insert($request->modifiedPolicyPayrollItemComputations);
+            }
+  
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

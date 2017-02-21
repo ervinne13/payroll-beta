@@ -49,8 +49,8 @@ class PoliciesSeeder extends Seeder {
             //  Deductions
             ["payroll_item_code" => "STD_D_A", "computation_source" => "STD_E_MI"], // absences
             ["payroll_item_code" => "STD_D_LU", "computation_source" => "STD_E_MI"], // lates
-            ["payroll_item_code" => "STD_D_BTL", "computation_source" => "STD_E_MI"], // break lates
-            ["payroll_item_code" => "STD_D_HDA", "computation_source" => "STD_E_MI"], // half day
+//            ["payroll_item_code" => "STD_D_BTL", "computation_source" => "STD_E_MI"], // break lates
+//            ["payroll_item_code" => "STD_D_HDA", "computation_source" => "STD_E_MI"], // half day
             //
             //  Benefits
             ["payroll_item_code" => "STD_D_SSS", "computation_source" => null],

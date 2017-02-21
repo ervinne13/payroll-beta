@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 
-/* global _, form_utilities, code, mode, moment, datatable_utilities, employeeWorkSchedules */
+/* global _, form_utilities, code, mode, moment, datatable_utilities, employeeWorkSchedules, baseUrl */
 
 (function () {
 
     var workScheduleRowTemplate = null;
+    var policyPayrollItemRowTemplate = null;
 
     $(document).ready(function () {
 
@@ -18,6 +19,7 @@
         initializeForm();
         initializeEvents();
         initializeUIData();
+        loadPolicyPayrollItems();
 
         form_utilities.disableFieldsOnViewMode(mode);
 
@@ -25,6 +27,7 @@
 
     function initializeTemplates() {
         workScheduleRowTemplate = _.template($('#work-schedule-row-template').html());
+        policyPayrollItemRowTemplate = _.template($('#policy-payroll-item-row-template').html());
     }
 
     function initializeUI() {
@@ -40,6 +43,10 @@
     }
 
     function initializeEvents() {
+        $('[name=policy_code]').change(function () {
+            loadPolicyPayrollItems();
+        });
+
         $('#action-assign-work-schedule').click(function () {
             var effectiveDateDisplay = $('[name=effective_date').val();
 
@@ -66,6 +73,7 @@
                 removeEmployeeWorkScheduleRow(effectiveDate);
             }
         });
+
     }
 
     function initializeUIData() {
@@ -99,6 +107,7 @@
     function appendDataOnSave(originalData) {
 
         originalData.modifiedWorkSchedules = getModifiedEmployeeWorkSchedules();
+        originalData.modifiedPolicyPayrollItemComputations = getModifiedPolicyPayrollItemComputations();
 
         return originalData;
     }
@@ -214,14 +223,56 @@
 
     //</editor-fold>    
 
-    //<editor-fold defaultstate="collapsed" desc="Payroll Items Amount">
-    
-    function loadPolicyPayrollItems() {
-        
-        
-        
+    //<editor-fold defaultstate="collapsed" desc="Payroll Items">
+
+    function getModifiedPolicyPayrollItemComputations() {
+
+        var policyPayrollItemComputations = [];
+
+        $('.policy-payroll-item').each(function () {
+            policyPayrollItemComputations.push({
+                employee_code: $('[name=code]').val(),
+                payroll_item_code: $(this).data('payroll-item-code'),
+                amount: $(this).find('.policy-payroll-item-computation').val()
+            });
+        });
+
+        $('.employee-work-schedule-row[data-state=created],.employee-work-schedule-row[data-state=updated]').each(function () {
+            policyPayrollItemComputations.push({
+                employee_code: $('[name=code]').val(),
+                effective_date: $(this).data('effective-date'),
+                work_schedule_code: $(this).data('work-schedule-code'),
+            });
+        });
+
+        return policyPayrollItemComputations;
     }
-    
+
+
+    function loadPolicyPayrollItems() {
+
+        var policyCode = $('[name=policy_code]').val();
+        var employeeCode = $('[name=code]').val();
+        var url = baseUrl + "/hr/policies/" + policyCode + "/employee/" + employeeCode;
+
+        $.get(url, function (policy) {
+            console.log(policy);
+            //  load to view
+            $('[data-content=policy-short-description]').html(policy.short_description);
+
+            var html = "";
+            for (var i in policy.payroll_items) {
+                if (policy.payroll_items[i].requires_employee_amount) {
+                    html += policyPayrollItemRowTemplate(policy.payroll_items[i]);
+                }
+            }
+
+            $('#employee-payroll-items-amount-table tbody').html(html);
+
+        });
+
+    }
+
     //</editor-fold>
 
 

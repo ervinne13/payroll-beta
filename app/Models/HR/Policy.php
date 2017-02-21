@@ -13,6 +13,15 @@ class Policy extends SGModel {
     protected $fillable   = [
         "code", "description", "long_description"
     ];
+    protected $payrollItemCodes = [];
+
+    public function hasPayrollItem($payrollItemCode) {
+        if (count($this->payrollItemCodes) == 0) {
+            $this->payrollItemCodes = array_column($this->policyPayrollItems->toArray(), "payroll_item_code");
+        }
+
+        return in_array($payrollItemCode, $this->payrollItemCodes);
+    }
 
     public function policyPayrollItems() {
         return $this->hasMany(PolicyPayrollItem::class, 'policy_code');

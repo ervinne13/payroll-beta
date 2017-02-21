@@ -4,7 +4,6 @@ namespace App\Models\Payroll;
 
 use App\Models\HR\PolicyPayrollItem;
 use App\Models\SGModel;
-use Illuminate\Support\Facades\DB;
 
 class PayrollItem extends SGModel {
 
@@ -33,7 +32,7 @@ class PayrollItem extends SGModel {
                                     ->where("employee_code", $employeeCode)
                                     ->orWhereNull("employee_payroll_item_computation.employee_code");
                         })
-                        ->orderBy("policy_payroll_item.computation_source")                        
+                        ->orderBy("policy_payroll_item.computation_source")
         ;
     }
 
@@ -79,8 +78,7 @@ class PayrollItem extends SGModel {
 //                        ->leftJoin('employee_payroll_item_computation', function($join) use($employeeCode, $payrollItem) {
 //                            $join->on("employee_code", '=', DB::raw($employeeCode));
 //                            $join->on("employee_payroll_item_computation.payroll_item_code", '=', "{$payrollItem->table}.code");
-//                        })
-        ;
+//                        });        
     }
 
 }

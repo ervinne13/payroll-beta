@@ -30,7 +30,10 @@
                 {
                     targets: 0,
                     render: function (code) {
-                        var actions = [datatable_utilities.getDefaultViewAction(code)];
+                        var actions = [
+                            datatable_utilities.getDefaultViewAction(code),
+                            datatable_utilities.getDefaultEditAction(code)
+                        ];
                         var view = datatable_utilities.getInlineActionsView(actions);
                         return view;
                     }
