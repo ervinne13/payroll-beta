@@ -26,8 +26,11 @@ class PayslipController extends Controller {
     public function employee($employeeCode, $payPeriod) {
 
         $summary = AttendanceSummary::of($employeeCode, $payPeriod)
-                ->with('payroll', 'payroll.payrollEntries', 'payroll.payrollEntries.payrollItem')
-                ->with('employee', 'employee.position')               
+                ->with(['payroll', 'payroll.payrollEntries' => function($query) use ($employeeCode) {
+                        $query->where("employee_code", $employeeCode);
+                        return $query;
+                    }, 'payroll.payrollEntries.payrollItem'])
+                ->with('employee', 'employee.position')
                 ->first();
 
         if ($summary) {
