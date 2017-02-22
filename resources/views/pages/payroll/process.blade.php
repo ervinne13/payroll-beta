@@ -7,6 +7,14 @@
 @endsection
 
 @section('js')
+<script id="employee-select-template" type="text/html">
+    <select name="employee_code">
+        <% _.each(employees, function(employee) {%>
+        <option value="<%= employee.code %>"><%= employee.first_name %> <%= employee.last_name %></option>
+        <% }); %>
+    </select>
+</script>
+
 <script type="text/javascript">
 var employees = {!! $employees !!}
 ;
@@ -65,12 +73,7 @@ var employees = {!! $employees !!}
                             <div class="col-lg-12">
 
                                 <b>Process Single Employee</b>
-                                <div class="input-group">                                    
-                                    <select name="employee_code">
-                                        @foreach($employees AS $employee)                                    
-                                        <option value="{{$employee->code}}">{{$employee->first_name}} {{$employee->last_name}}</option>
-                                        @endforeach
-                                    </select>
+                                <div id="select-employee-container" class="input-group">
                                 </div>
                             </div>    
                         </div>

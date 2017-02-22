@@ -9,11 +9,11 @@
         "August", "September", "October",
         "November", "December"
     ];
-
+    
     var payslipDetailsTemplate;
 
     $(document).ready(function () {
-
+        
         payslipDetailsTemplate = _.template($('#payslip-details-table-template').html());
 
         initializeUI();

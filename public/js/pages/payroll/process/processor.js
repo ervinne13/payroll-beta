@@ -12,7 +12,10 @@
     var payrollQueuedForProcessing = false;
     var currentlyProcessingPayroll = null;
 
+    var employeeSelectTemplate;
+
     $(function () {
+        employeeSelectTemplate = _.template($('#employee-select-template').html());
         payrollProcessor = new PayrollProcessor();
 //        var payrollProcessor2 = new PayrollProcessor();
 //
@@ -22,12 +25,22 @@
 
         initializeSteps();
 
+        initializeDynamicElements();
+
         initializeUI();
         initializeEvents();
 
         intitializePayrollProcessorEventHandlers();
     });
 
+
+    function initializeDynamicElements() {
+        console.log(employeeSelectTemplate(employees));
+        $('#select-employee-container').html(employeeSelectTemplate(employees));
+
+        $('[name=employee_code]').selectpicker();
+
+    }
 
     function initializeSteps() {
         $payrollSteps = $("#wizard").steps({
@@ -92,7 +105,7 @@
             displayPayrollProcessProgress(0);
             payrollProcessor.payPeriod = currentlyProcessingPayroll.pay_period;
             payrollProcessor.processEmployee(selectedEmployee)
-                    .then(function() {
+                    .then(function () {
                         swal("Success", "Payroll Processed", "success");
                     });
         });
