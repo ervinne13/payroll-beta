@@ -190,15 +190,6 @@ class AttendanceSummaryProcessorService {
         return $report;
     }
 
-    private function getMinutesBetweenDates(DateTime $from, DateTime $to) {
-        $dateDiff = $to->diff($from);
-        $minutes  = $dateDiff->days * 24 * 60;
-        $minutes  += $dateDiff->h * 60;
-        $minutes  += $dateDiff->i;
-
-        return $minutes;
-    }
-
     private function getWorkingDayInfo(Shift $shift, DateTime $dayDate) {
 
         $dateKey = $dayDate->format("Y-m-d");
@@ -251,11 +242,13 @@ class AttendanceSummaryProcessorService {
                     $scheduledOut = new DateTime($entryTime->format("Y-m-d") . " " . $shift->scheduled_out);
 
                     if ($entryTime > $scheduledIn) {
-                        $info["time_lates"] = 60 - $this->getMinutesBetweenDates($entryTime, $scheduledIn);
+                        $info["time_lates"] = $this->getMinutesBetweenDates($scheduledIn, $entryTime);
+                        $info["time_lates"] = $info["time_lates"] < 0 ? 0 : $info["time_lates"];
                     }
 
                     if ($outTime > $scheduledOut) {
                         $info["overtime"] = $this->getMinutesBetweenDates($outTime, $scheduledOut);
+                        $info["overtime"] = $info["overtime"] < 0 ? 0 : $info["overtime"];
                     }
                 }
 
@@ -267,6 +260,15 @@ class AttendanceSummaryProcessorService {
         }
 
         return $info;
+    }
+
+    private function getMinutesBetweenDates(DateTime $from, DateTime $to) {
+        $dateDiff = $to->diff($from);
+        $minutes  = $dateDiff->days * 24 * 60;
+        $minutes  += $dateDiff->h * 60;
+        $minutes  += $dateDiff->i;
+
+        return $minutes;
     }
 
     private function getApplicableWorkSchedule(DateTime $date) {
