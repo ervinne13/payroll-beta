@@ -206,7 +206,17 @@ class PayrollItemProcessingService {
             case "STD_E_TCO": return 0; // TODO
             case "STD_E_GP": return 0; // TODO
         }
-
+  
+        //  Overtimes
+        switch ($payrollItem->code) {
+            case "STD_E_OT": return $attendanceSummary->overtime;
+            case "STD_E_RDOT": return $attendanceSummary->rest_day_overtime;
+            case "STD_E_RDRHOT": return $attendanceSummary->rest_day_holiday_overtime;
+            case "STD_E_RDSHOT": return $attendanceSummary->rest_day_special_holiday_overtime;
+            case "STD_E_RHOT": return $attendanceSummary->holiday_overtime; 
+            case "STD_E_SHOT": return $attendanceSummary->special_holiday_overtime;
+        }
+        
         //  per day based payroll items
 //        if ($payrollItem->code == "STD_E_GP") {
 //            $gracePeriods = 0;

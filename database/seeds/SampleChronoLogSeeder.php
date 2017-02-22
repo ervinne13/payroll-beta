@@ -28,8 +28,9 @@ class SampleChronoLogSeeder extends Seeder {
         $januaryDays = [26, 30, 31];
 
         //  Absent: feb 8
+        //  Rest Day Overtime: 4
         $febuaryDays = [
-            1, 2, 3,
+            1, 2, 3, 4,
             6, 7, 8, 9, 10,
         ];
 

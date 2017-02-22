@@ -36,7 +36,11 @@
                 {
                     targets: [2, 3],
                     render: function (time) {
-                        return datatable_utilities.renderTimeFromDateTime(time, "display");
+                        if (time && time.length > 0) {
+                            return datatable_utilities.renderTimeFromDateTime(time, "display");
+                        } else {
+                            return "";
+                        }
 //                        return time;
                     }
                 }

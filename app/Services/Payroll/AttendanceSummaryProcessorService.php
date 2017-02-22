@@ -86,10 +86,14 @@ class AttendanceSummaryProcessorService {
             $workingDay = $this->getWorkingDayInfo($shift, clone $runningDate);
 
             //  do not count holidays as working month day or working cutoff day
-            if ($workingDay["holiday"] && $workingDay["holiday"]["type"] == "REG") {
-                $attendanceSummary->holiday_overtime ++;
-            } else if ($workingDay["holiday"] && $workingDay["holiday"]["type"] == "SNW") {
-                $attendanceSummary->special_holiday_overtime ++;
+            if ($workingDay["working_day"] && $workingDay["holiday"] && $workingDay["holiday"]["type"] == "REG") {
+                $attendanceSummary->holiday_overtime += $workingDay["minutes_present"];
+            } else if (!$workingDay["working_day"] && $workingDay["holiday"] && $workingDay["holiday"]["type"] == "REG") {
+                $attendanceSummary->rest_day_holiday_overtime += $workingDay["minutes_present"];
+            } else if ($workingDay["working_day"] && $workingDay["holiday"] && $workingDay["holiday"]["type"] == "SNW") {
+                $attendanceSummary->special_holiday_overtime += $workingDay["minutes_present"];
+            } else if (!$workingDay["working_day"] && $workingDay["holiday"] && $workingDay["holiday"]["type"] == "SNW") {
+                $attendanceSummary->rest_day_special_holiday_overtime += $workingDay["minutes_present"];
             } else if ($workingDay["working_day"]) {
                 $attendanceSummary->month_days ++;
 
@@ -103,7 +107,12 @@ class AttendanceSummaryProcessorService {
                     } else {
                         $attendanceSummary->absent++;
                     }
+
+                    $attendanceSummary->overtime += $workingDay["overtime"];
                 }
+            } else if ($runningDate <= $cutoffEnd && $workingDay["present"]) {
+                $attendanceSummary->present++;
+                $attendanceSummary->rest_day_overtime += $workingDay["minutes_present"];
             }
 
             if ($runningDate <= $cutoffEnd) {
@@ -201,6 +210,8 @@ class AttendanceSummaryProcessorService {
         $info["time_lates"]           = 0;
         $info["time_breaktime_lates"] = 0;
         $info["present"]              = false;
+        $info["minutes_present"]      = 0;
+        $info["overtime"]             = 0;
 
         return $this->assignWorkingDayTimeInfo($info, $shift, $dateKey);
     }
@@ -223,17 +234,36 @@ class AttendanceSummaryProcessorService {
             }
 
             if ($info["time_in"] && $info["time_out"]) {
-                $entryTime   = new DateTime($info["time_in"]);
-                $outTime     = new DateTime($info["time_out"]);
-                $scheduledIn = new DateTime($entryTime->format("Y-m-d") . " " . $shift->scheduled_in);
+                $entryTime = new DateTime($info["time_in"]);
+                $outTime   = new DateTime($info["time_out"]);
 
-                if ($entryTime > $scheduledIn) {
-                    $dateDiff           = $entryTime->diff($scheduledIn);
-                    $info["time_lates"] = 60 - $dateDiff->i;
+                if ($info["working_day"]) {
+                    $scheduledIn  = new DateTime($entryTime->format("Y-m-d") . " " . $shift->scheduled_in);
+                    $scheduledOut = new DateTime($entryTime->format("Y-m-d") . " " . $shift->scheduled_out);
+
+                    if ($entryTime > $scheduledIn) {
+                        $dateDiff           = $entryTime->diff($scheduledIn);
+                        $info["time_lates"] = 60 - $dateDiff->i;
+                    }
+
+                    if ($outTime > $scheduledOut) {
+                        $dateDiff         = $outTime->diff($scheduledOut);
+                        $minutes          = $dateDiff->days * 24 * 60;
+                        $minutes          += $dateDiff->h * 60;
+                        $minutes          += $dateDiff->i;
+                        $info["overtime"] = $minutes;
+                    }
                 }
 
-                $totalTimeSpent = $outTime->diff($entryTime);
-            }
+                $wholeDayDiff   = $outTime->diff($entryTime);
+                $minutesPresent = $wholeDayDiff->h * 60;
+                $minutesPresent += $wholeDayDiff->i;
+
+                $info["minutes_present"] = $minutesPresent;
+                if ($info["minutes_present"] < 0) {
+                    $info["minutes_present"] = 0;
+                }
+            }            
         }
 
         return $info;

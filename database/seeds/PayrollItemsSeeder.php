@@ -101,6 +101,7 @@ class PayrollItemsSeeder extends Seeder {
         for ($i = 0; $i < count($stdUniqueTaxableByTheHourEarnings); $i ++) {
             $stdUniqueTaxableByTheHourEarnings[$i]["standard"]                 = 1;
             $stdUniqueTaxableByTheHourEarnings[$i]["computation_basis"]        = "HR";
+            $stdUniqueTaxableByTheHourEarnings[$i]["computation_basis"]        = "MIN";
             $stdUniqueTaxableByTheHourEarnings[$i]["type"]                     = "E";
             $stdUniqueTaxableByTheHourEarnings[$i]["divider"]                  = 1;
             $stdUniqueTaxableByTheHourEarnings[$i]["requires_employee_amount"] = 0;
@@ -139,7 +140,6 @@ class PayrollItemsSeeder extends Seeder {
         }
 
 //        PayrollItem::insert($stdSTDDeductionAdjustments);
-
         // </editor-fold>
 
         $others = [
@@ -156,7 +156,6 @@ class PayrollItemsSeeder extends Seeder {
         }
 
 //        PayrollItem::insert($others);
-
         //  TAX
         PayrollItem::insert([
             "code"                     => "STD_D_WHT",

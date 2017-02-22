@@ -16,15 +16,17 @@ class AttendanceSummary extends SGModel {
         $this->month_days   = 0;
         $this->working_days = 0;
 
-        $this->present                  = 0;
-        $this->absent                   = 0;
-        $this->halfday_absent           = 0;
-        $this->late                     = 0;
-        $this->breaktime_late           = 0;
-        $this->overtime                 = 0;
-        $this->rest_day_overtime        = 0;
-        $this->holiday_overtime         = 0;
-        $this->special_holiday_overtime = 0;
+        $this->present                           = 0;
+        $this->absent                            = 0;
+        $this->halfday_absent                    = 0;
+        $this->late                              = 0;
+        $this->breaktime_late                    = 0;
+        $this->overtime                          = 0;
+        $this->rest_day_overtime                 = 0;
+        $this->holiday_overtime                  = 0;
+        $this->special_holiday_overtime          = 0;
+        $this->rest_day_holiday_overtime         = 0;
+        $this->rest_day_special_holiday_overtime = 0;
 
         parent::__construct($attributes);
     }
