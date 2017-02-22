@@ -44,6 +44,10 @@ class PayrollItemComputationSourceProcessingService {
      */
     public function getComputedAmount(PayrollItem $dependent, PayrollItem $dependency, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendanceSummary) {
 
+        if ($dependent->computation_basis == "EA") {
+            return $this->$generatedDependencyEntry->amount;
+        }
+
         if ($dependency->computation_basis == "MON") {
             return $this->getAmountFromMonth($dependent, $generatedDependencyEntry, $attendanceSummary);
         }
