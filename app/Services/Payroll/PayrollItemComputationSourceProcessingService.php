@@ -5,7 +5,7 @@ namespace App\Services\Payroll;
 use App\Models\HR\AttendanceSummary;
 use App\Models\Payroll\PayrollEntry;
 use App\Models\Payroll\PayrollItem;
-use SebastianBergmann\RecursionContext\Exception;
+use Exception;
 
 /**
  * Description of PayrollItemComputationSourceProcessingService
