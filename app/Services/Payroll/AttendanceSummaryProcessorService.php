@@ -190,6 +190,15 @@ class AttendanceSummaryProcessorService {
         return $report;
     }
 
+    private function getMinutesBetweenDates(DateTime $from, DateTime $to) {
+        $dateDiff = $to->diff($from);
+        $minutes  = $dateDiff->days * 24 * 60;
+        $minutes  += $dateDiff->h * 60;
+        $minutes  += $dateDiff->i;
+
+        return $minutes;
+    }
+
     private function getWorkingDayInfo(Shift $shift, DateTime $dayDate) {
 
         $dateKey = $dayDate->format("Y-m-d");
@@ -242,28 +251,19 @@ class AttendanceSummaryProcessorService {
                     $scheduledOut = new DateTime($entryTime->format("Y-m-d") . " " . $shift->scheduled_out);
 
                     if ($entryTime > $scheduledIn) {
-                        $dateDiff           = $entryTime->diff($scheduledIn);
-                        $info["time_lates"] = 60 - $dateDiff->i;
+                        $info["time_lates"] = 60 - $this->getMinutesBetweenDates($entryTime, $scheduledIn);
                     }
 
                     if ($outTime > $scheduledOut) {
-                        $dateDiff         = $outTime->diff($scheduledOut);
-                        $minutes          = $dateDiff->days * 24 * 60;
-                        $minutes          += $dateDiff->h * 60;
-                        $minutes          += $dateDiff->i;
-                        $info["overtime"] = $minutes;
+                        $info["overtime"] = $this->getMinutesBetweenDates($outTime, $scheduledOut);
                     }
                 }
 
-                $wholeDayDiff   = $outTime->diff($entryTime);
-                $minutesPresent = $wholeDayDiff->h * 60;
-                $minutesPresent += $wholeDayDiff->i;
-
-                $info["minutes_present"] = $minutesPresent;
+                $info["minutes_present"] = $this->getMinutesBetweenDates($outTime, $entryTime);
                 if ($info["minutes_present"] < 0) {
                     $info["minutes_present"] = 0;
                 }
-            }            
+            }
         }
 
         return $info;
