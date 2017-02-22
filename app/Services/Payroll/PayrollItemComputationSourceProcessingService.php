@@ -42,8 +42,8 @@ class PayrollItemComputationSourceProcessingService {
      * @param PayrollItem $dependency
      * @param type $attendanceSummary
      */
-    public function getComputedAmount(PayrollItem $dependent, PayrollItem $dependency, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendanceSummary) {
-
+    public function getComputedAmount(PayrollItem $dependent, PayrollItem $dependency, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendanceSummary) {        
+        
         if ($dependent->computation_basis == "EA") {
             return $generatedDependencyEntry->amount;
         }
