@@ -21,8 +21,8 @@ class Policy extends SGModel {
         }
 
         return in_array($payrollItemCode, $this->payrollItemCodes);
-    }
-
+    }    
+    
     public function policyPayrollItems() {
         return $this->hasMany(PolicyPayrollItem::class, 'policy_code');
     }
