@@ -8,7 +8,7 @@
 
 @section('js')
 <script id="employee-select-template" type="text/html">
-    <select name="employee_code">
+    <select name="employee_code" data-live-search="true">
         <% _.each(employees, function(employee) {%>
         <option value="<%= employee.code %>"><%= employee.first_name %> <%= employee.last_name %></option>
         <% }); %>
