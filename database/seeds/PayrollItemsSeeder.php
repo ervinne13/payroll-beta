@@ -48,7 +48,7 @@ class PayrollItemsSeeder extends Seeder {
 //            ["code" => "STD_E_WI", "description" => "Weekly Income", "computation_basis" => "W", "requires_employee_amount" => 1],
             ["code" => "STD_E_MI", "payslip_display_string" => "Salary", "description" => "Monthly Income", "computation_basis" => "MON", "requires_employee_amount" => 1],
             // adjusts/negates Lates & Undertimes
-            ["code" => "STD_E_TCO", "payslip_display_string" => "Tardiness", "description" => "Tardiness Converted to Overtime", "computation_basis" => "MIN", "requires_employee_amount" => 0],
+//            ["code" => "STD_E_TCO", "payslip_display_string" => "Tardiness", "description" => "Tardiness Converted to Overtime", "computation_basis" => "MIN", "requires_employee_amount" => 0],
 //            ["code" => "STD_E_GP", "payslip_display_string" => "Tardiness", "description" => "Grace Period", "computation_basis" => "MIN", "requires_employee_amount" => 1],
 //            ["code" => "STD_E_BTGP", "description" => "Break Time Grace Period", "computation_basis" => "MIN", "requires_employee_amount" => 0],
             //  allowances
