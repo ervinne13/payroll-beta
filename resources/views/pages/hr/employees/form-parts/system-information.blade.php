@@ -24,7 +24,7 @@
                 <div class="form-line">
                     <select name="tax_category_code" required class="form-control selectpicker" data-live-search="true">
                         @foreach($taxCategories AS $taxCategory)
-                        <?php $selected = $taxCategory->code == $employee->tax_cateogry_code ? "selected" : "" ?>
+                        <?php $selected = $taxCategory->code == $employee->tax_category_code ? "selected" : "" ?>
                         <option {{$selected}} value="{{$taxCategory->code}}">{{$taxCategory->description}}</option>
                         @endforeach
                     </select>
