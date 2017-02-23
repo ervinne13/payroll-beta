@@ -42,6 +42,11 @@ class PayrollItemProcessingService {
                     ->where("payroll_generated", 1)
                     ->delete();
 
+            AttendanceSummary::
+                    where("employee_code", $employee->code)
+                    ->where("payroll_pay_period", $payroll->pay_period)
+                    ->delete();
+
             $attendanceSummary                     = $this->attendanceSummaryProcessorService->generateAttendanceSummary($payroll, $employee);
             $attendanceSummary->employee_code      = $employee->code;
             $attendanceSummary->payroll_pay_period = $payroll->pay_period;
