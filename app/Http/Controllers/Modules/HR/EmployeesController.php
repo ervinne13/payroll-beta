@@ -62,6 +62,13 @@ class EmployeesController extends Controller {
         $viewData["employee"] = new Employee();
         $viewData["mode"]     = "create";
 
+        $latestCodeToday = Employee::latestCodeToday();
+        if ($latestCodeToday) {
+            $viewData["employee"]->code = (intval($latestCodeToday) + 1) . "";
+        } else {
+            $viewData["employee"]->code = date("Ymd") . "0001";
+        }
+
         return view("pages.hr.employees.form", $viewData);
     }
 
@@ -179,7 +186,7 @@ class EmployeesController extends Controller {
                 EmployeePayrollItemComputation::where("employee_code", $employee->code)->delete();
                 EmployeePayrollItemComputation::insert($request->modifiedPolicyPayrollItemComputations);
             }
-  
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

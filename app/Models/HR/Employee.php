@@ -13,12 +13,13 @@ class Employee extends SGModel {
 
     protected $table      = "employee";
     protected $primaryKey = "code";
+
     //
     /*     * ************************************************************************* */
     // <editor-fold defaultstate="collapsed" desc="Fillable">
 
     protected $fillable = [
-        "code",        
+        "code",
         "is_active",
         "email",
         "first_name",
@@ -45,6 +46,10 @@ class Employee extends SGModel {
 
     /*     * ************************************************************************* */
     // <editor-fold defaultstate="collapsed" desc="Functions">
+
+    public static function latestCodeToday() {
+        return Employee::where("code", "like", date("Ymd") . "%")->orderBy("code", "DESC")->first();
+    }
 
     public function getWorkingDayCount(Payroll $payroll) {
 
