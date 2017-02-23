@@ -50,6 +50,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Payslip Display String</label>
+                            <div class="form-line">
+                                <input value="{{$payrollItem->payslip_display_string}}" 
+                                       name="payslip_display_string" 
+                                       placeholder="Ex. Lates" 
+                                       class="form-control"
+                                       type="text" maxlength="32"  >
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
                             <label>Type</label>
                             <div class="form-line">
                                 <select name="type" class="form-control">
@@ -108,6 +119,9 @@
 
                             <input type="checkbox" name="taxable" id="check-taxable" {{$payrollItem->taxable ? "checked" : ""}} />
                             <label for="check-taxable">Taxable?</label>
+                            
+                            <input type="checkbox" name="requires_employee_amount" id="check-requires-employee-amount" {{$payrollItem->requires_employee_amount ? "checked" : ""}} />
+                            <label for="check-requires-employee-amount">Requires Employee Amount?</label>
                         </div>
                     </div>
 

@@ -10,14 +10,11 @@ class PayrollItem extends SGModel {
     protected $table      = "payroll_item";
     protected $primaryKey = "code";
     protected $fillable   = [
-        "code", "is_active", "description", "standard", "taxable", "type", "computation_basis", "special_holiday_rate", "regular_holiday_rate"
+        "code", "is_active", "description", "payslip_display_string", "standard", "taxable", "type", "computation_basis", "requires_employee_amount"
     ];
 
     public function __construct(array $attributes = array()) {
-        parent::__construct($attributes);
-
-        $this->special_holiday_rate = 100;
-        $this->regular_holiday_rate = 100;
+        parent::__construct($attributes);        
     }
 
     public function scopeForProcessing($query, $employeeCode, $policyCode) {
