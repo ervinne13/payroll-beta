@@ -54,7 +54,7 @@
             </td>                                        
             <td class="payroll-detail-col"></td>
             <td class="payroll-detail-col align-right">
-                <b content-source="gross_income"><%= formatCurrency(cutoff_rate + totalEarnings) %></b>
+                <b content-source="gross_income"><%= formatCurrency(totalEarnings) %></b>
             </td>
         </tr>
 
@@ -96,8 +96,8 @@
             <td class="payroll-detail-col align-right">Php</td>
             <td class="payroll-detail-col align-right"></td>
             <td class="payroll-detail-col align-right">
-                <% var netIncome = formatCurrency(cutoff_rate + totalEarnings - totalDeductions) %>
-                <b content-source="net_income"><%= netIncome > 0 ? netIncome : 0 %></b>
+                <% var netIncome = totalEarnings - totalDeductions %>
+                <b content-source="net_income"><%= netIncome > 0 ? formatCurrency(netIncome) : 0 %></b>
             </td>
         </tr>
 

@@ -51,7 +51,6 @@
         if (payPeriod && employeeCode) {
             var url = baseUrl + "/reports/payslip/" + employeeCode + "/period/" + payPeriod;
             $.get(url, function (payslipData) {
-                console.log(payslipData);
 
                 setHeaderData(payslipData);
                 setDetailsData(payslipData);
@@ -90,7 +89,7 @@
         var exemptEntries = ["Salary"];
 
         payslipData.totalDeductions = 0;
-        payslipData.totalEarnings = 0;
+        payslipData.totalEarnings = payslipData.cutoff_rate;
 
         payslipData.deductions = {};
         payslipData.earnings = {};

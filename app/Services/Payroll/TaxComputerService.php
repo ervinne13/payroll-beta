@@ -33,8 +33,8 @@ class TaxComputerService {
                 ->with('payrollItem')
                 ->get();
 
-        $taxableEarnings = 0;
-
+        $taxableEarnings = 0;        
+        
         foreach ($payrollEntries AS $payrollEntry) {
             if (!$payrollEntry->payrollItem->taxable) {
                 continue;
@@ -47,6 +47,9 @@ class TaxComputerService {
             }
         }
 
+        //  not standard, for demo only
+        $employee->policy->payrollEntries;
+        
         return $this->getTaxAmount($employee, $taxableEarnings);
     }
 

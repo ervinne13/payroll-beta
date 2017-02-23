@@ -31,7 +31,8 @@ class SampleChronoLogSeeder extends Seeder {
         //  Rest Day Overtime: 4
         $febuaryDays = [
             1, 2, 3, 4,
-            6, 7, 8, 9, 10,
+            6
+//            6, 7, 8, 9, 10,
         ];
 
         foreach ($januaryDays AS $day) {
