@@ -10,7 +10,7 @@ class PayrollItem extends SGModel {
     protected $table      = "payroll_item";
     protected $primaryKey = "code";
     protected $fillable   = [
-        "code", "is_active", "description", "payslip_display_string", "standard", "taxable", "type", "computation_basis", "requires_employee_amount"
+        "code", "is_active", "description", "payslip_display_string", "standard", "taxable", "type", "computation_basis", "requires_employee_amount", "multiplier", "divider"
     ];
 
     public function __construct(array $attributes = array()) {
