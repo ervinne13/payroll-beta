@@ -56,9 +56,10 @@ class TaxComputerService {
         //  estimate tax
         $annualIncome   = $income * 12;
         $taxComputation = TaxComputation::where("over_amount", ">=", $annualIncome)->where("below_amount", "<=", $annualIncome)->first();
+        $excemption     = $employee->taxCategory->exemption_amount;
 
         if ($taxComputation) {
-            return ($taxComputation->tax_due + (($annualIncome - $taxComputation->over_amount) * $taxComputation->percent / 100)) / 12;
+            return( ($taxComputation->tax_due + (($annualIncome - $taxComputation->over_amount) * $taxComputation->percent / 100)) - $excemption) / 12;
         } else {
             return 0;
         }

@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Log;
  */
 class PayrollItemProcessingService {
 
+    protected $monthlyProcessables = [
+        "STD_D_PAGIBIG", "STD_D_PH", "STD_D_SSS", "STD_D_WHT"
+    ];
+
     /** @var WorkingDayComputationService */
 //    protected $workingDayComputationService;
     protected $attendanceSummaryProcessorService;
@@ -64,13 +68,13 @@ class PayrollItemProcessingService {
 
             //  use remove duplicates as workaround for duplicating payroll item
             //  when joining with employee payroll item computation
-            $payrollItems = $this->removeDuplicates(PayrollItem::
+            $payrollItems = $this->removeDuplicates($payroll, PayrollItem::
                             ForProcessing($employee->code, $employee->policy->code)
                             ->get()
             );
 
 //            echo json_encode($payrollItems);
-            
+
             $rates = $this->getRates($payrollItems, $attendanceSummary);
 
             if ($rates) {
@@ -85,17 +89,19 @@ class PayrollItemProcessingService {
 
             $generatedPayrollEntries = $this->processPayrollItemsRecursively($employee, $payroll, $attendanceSummary, $payrollItems, $dependencyMap, []);
 
-            //  generate tax
-            $payrollEntry                     = new PayrollEntry();
-            $payrollEntry->employee_code      = $employee->code;
-            $payrollEntry->payroll_item_code  = "STD_D_WHT";
-            $payrollEntry->date_applied       = date("Y-m-d");
-            $payrollEntry->payroll_pay_period = $payroll->pay_period;
-            $payrollEntry->payroll_generated  = true;
-            $payrollEntry->qty                = 1;
-            $payrollEntry->amount             = $taxComputerService->getEstimatedEmployeeTaxDue($employee, $payroll);
+            if ($payroll->include_monthly_processable) {
+                //  generate tax
+                $payrollEntry                     = new PayrollEntry();
+                $payrollEntry->employee_code      = $employee->code;
+                $payrollEntry->payroll_item_code  = "STD_D_WHT";
+                $payrollEntry->date_applied       = date("Y-m-d");
+                $payrollEntry->payroll_pay_period = $payroll->pay_period;
+                $payrollEntry->payroll_generated  = true;
+                $payrollEntry->qty                = 1;
+                $payrollEntry->amount             = $taxComputerService->getEstimatedEmployeeTaxDue($employee, $payroll);
 
-            $payrollEntry->save();
+                $payrollEntry->save();
+            }
 
             DB::commit();
 
@@ -107,11 +113,16 @@ class PayrollItemProcessingService {
         }
     }
 
-    private function removeDuplicates($payrollItems) {
+    private function removeDuplicates($payroll, $payrollItems) {
         $processed         = [];
         $cleanPayrollItems = [];
 
         foreach ($payrollItems AS $payrollItem) {
+
+            if (!$payroll->include_monthly_processable && in_array($payrollItem->code, $this->monthlyProcessables)) {
+                continue;
+            }
+
             if (!in_array($payrollItem->code, $processed)) {
                 array_push($cleanPayrollItems, $payrollItem);
                 array_push($processed, $payrollItem->code);

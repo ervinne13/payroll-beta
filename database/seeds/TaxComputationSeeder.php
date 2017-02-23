@@ -19,8 +19,8 @@ class TaxComputationSeeder extends Seeder {
             ["over_amount" => 10000, "below_amount" => 29999, "tax_due" => 500, "percent" => 10],
             ["over_amount" => 30000, "below_amount" => 69999, "tax_due" => 2500, "percent" => 15],
             ["over_amount" => 70000, "below_amount" => 139999, "tax_due" => 8500, "percent" => 20],
-            ["over_amount" => 140000, "below_amount" => 24999, "tax_due" => 22500, "percent" => 25],
-            ["over_amount" => 250000, "below_amount" => 49999, "tax_due" => 50000, "percent" => 30],
+            ["over_amount" => 140000, "below_amount" => 249999, "tax_due" => 22500, "percent" => 25],
+            ["over_amount" => 250000, "below_amount" => 499999, "tax_due" => 50000, "percent" => 30],
             ["over_amount" => 500000, "below_amount" => 9999999, "tax_due" => 125000, "percent" => 32],
         ];
 
