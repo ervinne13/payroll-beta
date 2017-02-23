@@ -54,7 +54,7 @@ class TaxComputerService {
     private function getTaxAmount(Employee $employee, $income) {
 
         //  estimate tax
-        $annualIncome   = $income * 12;
+        $annualIncome   = $income * 12 * 2; //  * 2 since this is per cutoff
         $taxComputation = TaxComputation::where("over_amount", ">=", $annualIncome)->where("below_amount", "<=", $annualIncome)->first();
         $excemption     = $employee->taxCategory->exemption_amount;
 
