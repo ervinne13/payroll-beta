@@ -74,9 +74,9 @@
                             <label>Computation Basis</label>
                             <div class="form-line">
                                 <select name="computation_basis" class="form-control">
-                                    <option {{$payrollItem->computation_basis == "D" ? "selected" : ""}} value="D">Day</option>
-                                    <option {{$payrollItem->computation_basis == "H" ? "selected" : ""}} value="H">Hour</option>
-                                    <option {{$payrollItem->computation_basis == "M" ? "selected" : ""}} value="M">Minute</option>
+                                    <option {{$payrollItem->computation_basis == "DAY" ? "selected" : ""}} value="D">Day</option>
+                                    <option {{$payrollItem->computation_basis == "HR" ? "selected" : ""}} value="H">Hour</option>
+                                    <option {{$payrollItem->computation_basis == "MIN" ? "selected" : ""}} value="M">Minute</option>
                                     <option {{$payrollItem->computation_basis == "EA" ? "selected" : ""}} value="EA">Exact Amount</option>
                                 </select>
                             </div>

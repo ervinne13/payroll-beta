@@ -42,45 +42,53 @@ class PayrollItemComputationSourceProcessingService {
      * @param PayrollItem $dependency
      * @param type $attendanceSummary
      */
-    public function getComputedAmount(PayrollItem $dependent, PayrollItem $dependency, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendanceSummary) {        
-        
+    public function getComputedAmount(PayrollItem $dependent, PayrollItem $dependency, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendanceSummary) {
+
         if ($dependent->computation_basis == "EA") {
             return $generatedDependencyEntry->amount;
         }
 
+        $amount = 0;
+
         if ($dependency->computation_basis == "MON") {
-            return $this->getAmountFromMonth($dependent, $generatedDependencyEntry, $attendanceSummary);
+            $amount = $this->getAmountFromMonth($dependent, $generatedDependencyEntry, $attendanceSummary);
         }
 
         if ($dependency->computation_basis == "DAY") {
-            return $this->getAmountFromDay($dependent, $generatedDependencyEntry, $attendanceSummary);
+            $amount = $this->getAmountFromDay($dependent, $generatedDependencyEntry, $attendanceSummary);
         }
 
         if ($dependency->computation_basis == "HR") {
-            return $this->getAmountFromHr($dependent, $generatedDependencyEntry, $attendanceSummary);
+            $amount = $this->getAmountFromHr($dependent, $generatedDependencyEntry, $attendanceSummary);
         }
+
+        if ($dependency->computation_basis == "MIN") {
+            $amount = $this->getAmountFromMin($dependent, $generatedDependencyEntry, $attendanceSummary);
+        }
+
+        return $amount * $generatedDependencyEntry->qty;
     }
 
     private function getAmountFromMonth(PayrollItem $dependent, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendanceSummary) {
 
         //  Month -> Month
         if ($dependent->computation_basis == "MON") {
-            return $generatedDependencyEntry->amount * 0.5;
+            return $generatedDependencyEntry->amount;
         }
 
         //   Month -> Day = A / MD
         if ($dependent->computation_basis == "DAY") {
-            return $generatedDependencyEntry->amount * 0.5 / $attendanceSummary->working_days;
+            return $generatedDependencyEntry->amount / $attendanceSummary->working_days;
         }
 
         //   Month -> Hour = A / (MD * 8)
         if ($dependent->computation_basis == "HR") {
-            return $generatedDependencyEntry->amount * 0.5 / ($attendanceSummary->month_days * 8);
+            return $generatedDependencyEntry->amount / ($attendanceSummary->month_days * 8);
         }
 
         //   Month -> Minute = A / (MD * 8 * 60)
         if ($dependent->computation_basis == "MIN") {
-            return $generatedDependencyEntry->amount * 0.5 / ($attendanceSummary->month_days * 8 * 60);
+            return $generatedDependencyEntry->amount / ($attendanceSummary->month_days * 8 * 60);
         }
 
         throw new Exception("Unrecognized computation basis {$dependent->computation_basis}");
@@ -131,6 +139,31 @@ class PayrollItemComputationSourceProcessingService {
         //   Hour -> Minute = A / 60
         if ($dependent->computation_basis == "MIN") {
             return $generatedDependencyEntry->amount / 60;
+        }
+
+        throw new Exception("Unrecognized computation basis {$dependent->computation_basis}");
+    }
+
+    private function getAmountFromMin(PayrollItem $dependent, PayrollEntry $generatedDependencyEntry, AttendanceSummary $attendanceSummary) {
+
+        //  Min -> Mon = A * MD * 8 * 60
+        if ($dependent->computation_basis == "MON") {
+            return $generatedDependencyEntry->amount * $attendanceSummary->month_days * 8 * 60;
+        }
+
+        //   Min -> Day = A * 8 * 60
+        if ($dependent->computation_basis == "DAY") {
+            return $generatedDependencyEntry->amount * 8 * 60;
+        }
+
+        //   Min -> Hour = A * 60
+        if ($dependent->computation_basis == "HR") {
+            return $generatedDependencyEntry->amount * 60;
+        }
+
+        //   Min -> Minute = A
+        if ($dependent->computation_basis == "MIN") {
+            return $generatedDependencyEntry->amount;
         }
 
         throw new Exception("Unrecognized computation basis {$dependent->computation_basis}");

@@ -216,6 +216,11 @@ class PayrollItemProcessingService {
             return $payroll->include_monthly_processable ? 1 : 0;
         }
 
+        //  user created payroll items
+        if ($payrollItem->standard == false) {
+            return 1;
+        }
+
         //  working day computation based payroll items
         switch ($payrollItem->code) {
             case "STD_D_A": return $attendanceSummary->absent;
