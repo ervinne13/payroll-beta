@@ -77,11 +77,11 @@
                         console.log(basis);
 
                         switch (basis) {
-                            case "D":
+                            case "DAY":
                                 return "Day";
-                            case "H":
+                            case "HR":
                                 return "Hour";
-                            case "M":
+                            case "MIN":
                                 return "Minute";
                             case "EA":
                                 return "Amount";
