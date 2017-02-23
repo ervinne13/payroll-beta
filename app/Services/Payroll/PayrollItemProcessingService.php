@@ -10,6 +10,7 @@ use App\Models\Payroll\PayrollItem;
 use App\Services\Payroll\WorkingDayComputationService;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Description of PayrollItemProcessingService
@@ -68,6 +69,8 @@ class PayrollItemProcessingService {
                             ->get()
             );
 
+//            echo json_encode($payrollItems);
+            
             $rates = $this->getRates($payrollItems, $attendanceSummary);
 
             if ($rates) {
@@ -98,6 +101,7 @@ class PayrollItemProcessingService {
 
             return $generatedPayrollEntries;
         } catch (Exception $ex) {
+            Log::error($ex);
             DB::rollBack();
             throw $ex;
         }
@@ -193,8 +197,13 @@ class PayrollItemProcessingService {
                 //  before each dependency resolution, validate
                 $this->validateDependency($payrollItem, $payrollItemStack, $dependencyMap);
 
-                $dependency           = $dependencyMap[$payrollItem->computation_source];
-                $payrollEntry->amount = $this->payrollItemComputationSourceProcessingService->getComputedAmount($payrollItem, $dependency, $dependency->payrollEntry, $attendanceSummary);
+                if (array_key_exists($payrollItem->computation_source, $dependencyMap)) {
+                    $dependency           = $dependencyMap[$payrollItem->computation_source];
+                    $payrollEntry->amount = $this->payrollItemComputationSourceProcessingService->getComputedAmount($payrollItem, $dependency, $dependency->payrollEntry, $attendanceSummary);
+                } else {
+                    $payrollEntry->amount = 0;
+                    return $this->processPayrollItemsRecursively($employee, $payroll, $attendanceSummary, $payrollItemStack, $dependencyMap, $generatedPayrollEntries);
+                }
             }
 
             //  for reference in the next iteration
