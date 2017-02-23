@@ -59,7 +59,7 @@
                                        type="text" maxlength="32"  >
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Type</label>
                             <div class="form-line">
@@ -74,9 +74,9 @@
                             <label>Computation Basis</label>
                             <div class="form-line">
                                 <select name="computation_basis" class="form-control">
-                                    <option {{$payrollItem->computation_basis == "DAY" ? "selected" : ""}} value="D">Day</option>
-                                    <option {{$payrollItem->computation_basis == "HR" ? "selected" : ""}} value="H">Hour</option>
-                                    <option {{$payrollItem->computation_basis == "MIN" ? "selected" : ""}} value="M">Minute</option>
+                                    <option {{$payrollItem->computation_basis == "DAY" ? "selected" : ""}} value="DAY">Day</option>
+                                    <option {{$payrollItem->computation_basis == "HR" ? "selected" : ""}} value="HR">Hour</option>
+                                    <option {{$payrollItem->computation_basis == "MIN" ? "selected" : ""}} value="MIN">Minute</option>
                                     <option {{$payrollItem->computation_basis == "EA" ? "selected" : ""}} value="EA">Exact Amount</option>
                                 </select>
                             </div>
@@ -119,7 +119,7 @@
 
                             <input type="checkbox" name="taxable" id="check-taxable" {{$payrollItem->taxable ? "checked" : ""}} />
                             <label for="check-taxable">Taxable?</label>
-                            
+
                             <input type="checkbox" name="requires_employee_amount" id="check-requires-employee-amount" {{$payrollItem->requires_employee_amount ? "checked" : ""}} />
                             <label for="check-requires-employee-amount">Requires Employee Amount?</label>
                         </div>
