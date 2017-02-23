@@ -64,8 +64,8 @@
                             <label>Type</label>
                             <div class="form-line">
                                 <select name="type" class="form-control">
-                                    <option {{$payrollItem->computation_basis == "D" ? "selected" : ""}} value="D">Deduction</option>
-                                    <option {{$payrollItem->computation_basis == "E" ? "selected" : ""}} value="E">Earnings</option>
+                                    <option {{$payrollItem->type == "D" ? "selected" : ""}} value="D">Deduction</option>
+                                    <option {{$payrollItem->type == "E" ? "selected" : ""}} value="E">Earnings</option>
                                 </select>
                             </div>
                         </div>
