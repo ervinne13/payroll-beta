@@ -65,7 +65,7 @@ class PoliciesSeeder extends Seeder {
         PolicyPayrollItem::insert($MRPayroll);
 
         $MRFPayroll = $MRPayroll;
-        array_push($MRFPayroll, ["payroll_item_code" => "STD_E_TCO", "computation_source" => "STD_E_MI"]);
+//        array_push($MRFPayroll, ["payroll_item_code" => "STD_E_TCO", "computation_source" => "STD_E_MI"]);
 
 
         for ($i = 0; $i < count($MRFPayroll); $i ++) {
