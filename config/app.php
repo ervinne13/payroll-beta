@@ -13,13 +13,10 @@ return [
 
 //    'name' => 'POMS Payroll',
 //    'name'            => 'Stargate BSI Payroll / HR',
-    'name'            => 'Payroll',
-    'author_link'     => "https://www.facebook.com/hamep",
-//    'author_link'     => "https://www.facebook.com/ervinne.sodusta",
-    'author_name'     => "Jeff Navarro Alacapa",
-//    'author_name'     => "Ervinne Sodusta",
+    'name'            => 'Payroll',    
+    'author_link'     => "https://www.facebook.com/ervinne.sodusta",    
+    'author_name'     => "Ervinne Sodusta",
     'organization'    => "Profile Overseas Manpower Services, Inc.",
-//    'organization'    => "Stargate Business Solutions Inc.",
     /*
       |--------------------------------------------------------------------------
       | Application Environment

@@ -21,7 +21,8 @@ use DateTime;
  *
  * @author ervinne
  */
-class WorkingDayComputationService {
+class WorkingDayComputationService
+{
 
     const DAY_OFF_SHIFT_CODE = "DO";
 
@@ -45,7 +46,8 @@ class WorkingDayComputationService {
      * @param Employee $employee
      * @return array An array of \DateTime objects that represents all the days within the payroll period that requires employee attendance.
      */
-    public function getWorkingDays(Payroll $payroll, Employee $employee) {
+    public function getWorkingDays(Payroll $payroll, Employee $employee)
+    {
 
         $cutoffStart = new \DateTime($payroll->cutoff_start);
         $cutoffEnd   = new \DateTime($payroll->cutoff_end);
@@ -76,15 +78,17 @@ class WorkingDayComputationService {
         $lates          = 0;
         $breaktimeLates = 0;
 
+        $lastApplicableWorkingDay = null;
+
         $runningDate = $cutoffStart;
-        for ($i = 0; $i < $days; $i ++) {
+        for ( $i = 0; $i < $days; $i ++ ) {
             //  use get applicable work schedule to get the appropriate work schedule
             //  given the running date. employees may have different working schedules
             //  in the middle of their cutoff
             $workSchedule     = $this->getApplicableWorkSchedule($runningDate);
             $runningDayOfWeek = $runningDate->format("w") + 1;
 
-            if ($workSchedule == null) {
+            if ( $workSchedule == null ) {
                 throw new NoWorkScheduleException($employee);
             }
 
@@ -92,29 +96,37 @@ class WorkingDayComputationService {
             $shift     = $this->shiftMap[$shiftCode];
 
 //            echo "{$shiftCode} - {$runningDate->format("Y-m-d")}, ";
-            $workingDay = $this->getWorkingDayInfo($shift, clone $runningDate);
-
-            //  do not count holidays as working month day or working cutoff day
-            if ($workingDay["holiday"] && $workingDay["holiday"]["type"] == "REG") {
-                $regularHolidayPresentCount ++;
-            } else if ($workingDay["holiday"] && $workingDay["holiday"]["type"] == "SNW") {
+            $workingDay = $this->getWorkingDayInfo($shift, clone $runningDate);            
+            
+            //  do not count holidays as working month day or working cutoff day           
+            if ( $workingDay["holiday"] && $workingDay["holiday"]["type"] == "REG" ) {
+                //  unless, the employee did not work on the previous working day
+                if ( $lastApplicableWorkingDay && !$lastApplicableWorkingDay['present'] ) {
+                    $workingMonthDayCount++;
+                    $absences ++;                    
+                } else {                    
+                    $regularHolidayPresentCount ++;
+                }
+            } else if ( $workingDay["holiday"] && $workingDay["holiday"]["type"] == "SNW" ) {
                 $specialNonWorkingHolidayPresentCount ++;
-            } else if ($workingDay["working_day"]) {
+            } else if ( $workingDay["working_day"] ) {
                 $workingMonthDayCount++;
 
-                if ($runningDate <= $cutoffEnd) {
+                if ( $runningDate <= $cutoffEnd ) {
                     $workingCutoffDayCount ++;
 
-                    if (!$workingDay["present"]) {
+                    if ( !$workingDay["present"] ) {
                         $absences ++;
                     } else {
                         $lates          += $workingDay["time_lates"];
                         $breaktimeLates += $workingDay["time_breaktime_lates"];
                     }
                 }
+
+                $lastApplicableWorkingDay = $workingDay;
             }
 
-            if ($runningDate <= $cutoffEnd) {
+            if ( $runningDate <= $cutoffEnd ) {
                 array_push($workingDays, $workingDay);
             }
 
@@ -136,14 +148,15 @@ class WorkingDayComputationService {
         ];
     }
 
-    private function getWorkingDayInfo(Shift $shift, DateTime $dayDate) {
+    private function getWorkingDayInfo(Shift $shift, DateTime $dayDate)
+    {
 
         $dateKey = $dayDate->format("Y-m-d");
         $info    = ["date" => $dayDate];
 
         $info["working_day"] = $shift->code != WorkingDayComputationService::DAY_OFF_SHIFT_CODE;
 
-        if (array_key_exists($dateKey, $this->holidayMap)) {
+        if ( array_key_exists($dateKey, $this->holidayMap) ) {
             $info["holiday"] = $this->holidayMap[$dateKey];
         } else {
             $info["holiday"] = NULL;
@@ -160,19 +173,20 @@ class WorkingDayComputationService {
         return $this->assignWorkingDayTimeInfo($info, $shift, $dateKey);
     }
 
-    private function assignWorkingDayTimeInfo(&$info, Shift $shift, $dateKey) {
+    private function assignWorkingDayTimeInfo(&$info, Shift $shift, $dateKey)
+    {
 
 //        echo json_encode($this->chronoLogMap);
 //        exit();
 
-        if (array_key_exists($dateKey, $this->chronoLogMap)) {
+        if ( array_key_exists($dateKey, $this->chronoLogMap) ) {
             $chronoLogs = $this->chronoLogMap[$dateKey];
 
-            if (count($chronoLogs) > 0) {
+            if ( count($chronoLogs) > 0 ) {
                 $info["time_in"] = $chronoLogs[0]->entry_time;
             }
 
-            if (count($chronoLogs) >= 2) {
+            if ( count($chronoLogs) >= 2 ) {
                 //  the employee is present only if he has 2 time entries
                 $info["present"]  = true;
                 $info["time_out"] = $chronoLogs[count($chronoLogs) - 1]->entry_time;
@@ -181,7 +195,7 @@ class WorkingDayComputationService {
             $entryType   = new DateTime($chronoLogs[0]->entry_time);
             $scheduledIn = new DateTime($shift->scheduled_in);
 
-            if ($entryType > $scheduledIn) {
+            if ( $entryType > $scheduledIn ) {
                 $dateDiff           = $entryType->diff($scheduledIn);
                 $info["time_lates"] = $dateDiff->i;
             }
@@ -190,19 +204,20 @@ class WorkingDayComputationService {
         return $info;
     }
 
-    private function getApplicableWorkSchedule(DateTime $date) {
+    private function getApplicableWorkSchedule(DateTime $date)
+    {
 
         //  for quicker search, start from the lastApplicableWorkScheduleIndex
-        for ($i = $this->lastApplicableWorkScheduleIndex; $i < count($this->employeeWorkSchedules); $i ++) {
+        for ( $i = $this->lastApplicableWorkScheduleIndex; $i < count($this->employeeWorkSchedules); $i ++ ) {
             $this->lastApplicableWorkScheduleIndex = $i;
 
-            if ($this->employeeWorkSchedules[$i]->effective_date <= $date) {
+            if ( $this->employeeWorkSchedules[$i]->effective_date <= $date ) {
                 return $this->employeeWorkSchedules[$i];
             }
         }
 
         //  no work schedule found. if lastApplicableWorkScheduleIndex did not start from 0, search again but this time, start from 0.
-        if ($this->lastApplicableWorkScheduleIndex > 0) {
+        if ( $this->lastApplicableWorkScheduleIndex > 0 ) {
             $this->lastApplicableWorkScheduleIndex = 0;
             return $this->getApplicableWorkSchedule($date);
         }
@@ -210,13 +225,14 @@ class WorkingDayComputationService {
 
     // <editor-fold defaultstate="collapsed" desc="Data Loaders & mappers">
 
-    private function loadEmployeeWorkSchedules(Employee $employee, DateTime $lastDateApplicable) {
+    private function loadEmployeeWorkSchedules(Employee $employee, DateTime $lastDateApplicable)
+    {
         $this->employeeWorkSchedules = WorkSchedule::AppliesToEmployeeBeforeDate($employee, $lastDateApplicable)->with('workScheduleShifts')->get();
 
         //  map work schedule shifts' day of week
-        for ($i = 0; $i < count($this->employeeWorkSchedules); $i ++) {
+        for ( $i = 0; $i < count($this->employeeWorkSchedules); $i ++ ) {
             $map = [];
-            foreach ($this->employeeWorkSchedules[$i]->workScheduleShifts AS $shift) {
+            foreach ( $this->employeeWorkSchedules[$i]->workScheduleShifts AS $shift ) {
                 $map[$shift->week_day] = $shift->shift_code;
             }
 
@@ -226,17 +242,18 @@ class WorkingDayComputationService {
         $this->lastApplicableWorkScheduleIndex = 0;
     }
 
-    private function loadShiftMap() {
+    private function loadShiftMap()
+    {
 
         $shiftCodesToQuery = [];
 
-        foreach ($this->employeeWorkSchedules AS $workSchedule) {
-            foreach ($workSchedule->workScheduleShifts AS $shift) {
+        foreach ( $this->employeeWorkSchedules AS $workSchedule ) {
+            foreach ( $workSchedule->workScheduleShifts AS $shift ) {
 
                 //  if this shift is not yet loaded and it's not a day off,
                 //  put its id on the shift codes to query. This will be used
                 //  for the query later
-                if (!array_key_exists($shift->shift_code, $this->shiftMap)) {
+                if ( !array_key_exists($shift->shift_code, $this->shiftMap) ) {
 
                     //  this data will be overwritten later, this is just placeholder                   
                     array_push($shiftCodesToQuery, $shift->shift_code);
@@ -247,12 +264,13 @@ class WorkingDayComputationService {
         $shifts = Shift::whereIn("code", $shiftCodesToQuery)->with('breaks')->get();
 
         //  map the shifts
-        foreach ($shifts AS $shift) {
+        foreach ( $shifts AS $shift ) {
             $this->shiftMap[$shift->code] = $shift;
         }
     }
 
-    private function loadHolidays(DateTime $from, DateTime $to) {
+    private function loadHolidays(DateTime $from, DateTime $to)
+    {
 
         $regularHolidays           = Holiday::Regular()->FromMonthAndDay($from)->ToMonthAndDay($to)->get();
         $specialNonWorkingHolidays = Holiday::SpecialNonWorking()->from($from)->to($to)->get();
@@ -261,14 +279,15 @@ class WorkingDayComputationService {
         $this->mapHolidays($specialNonWorkingHolidays, "SNW");
     }
 
-    private function mapHolidays($holidays, $type) {
-        foreach ($holidays AS $holiday) {
+    private function mapHolidays($holidays, $type)
+    {
+        foreach ( $holidays AS $holiday ) {
             //  if the holiday has multiple dates
-            if ($holiday->date_start != $holiday->date_end) {
+            if ( $holiday->date_start != $holiday->date_end ) {
                 //  loop through the dates
                 $runningDate = DateTime::createFromFormat("Y-m-d", $holiday->date_start);
                 $dateEnd     = DateTime::createFromFormat("Y-m-d", $holiday->date_end);
-                while ($runningDate <= $dateEnd) {
+                while ( $runningDate <= $dateEnd ) {
                     $this->holidayMap[$runningDate->format("Y-m-d")] = [
                         "type"         => $type,
                         "holiday_desc" => $holiday->description
@@ -285,16 +304,17 @@ class WorkingDayComputationService {
         }
     }
 
-    private function mapEmployeeChronoLog(Employee $employee, Payroll $payroll) {
+    private function mapEmployeeChronoLog(Employee $employee, Payroll $payroll)
+    {
 
         $chronoLogs = $employee
-                ->ChronoLog()
-                ->BetweenDates($payroll->cutoff_start, $payroll->cutoff_end)
-                ->orderBy("entry_time")
-                ->get();
+            ->ChronoLog()
+            ->BetweenDates($payroll->cutoff_start, $payroll->cutoff_end)
+            ->orderBy("entry_time")
+            ->get();
 
-        foreach ($chronoLogs AS $log) {
-            if (!array_key_exists($log->entry_date, $this->chronoLogMap)) {
+        foreach ( $chronoLogs AS $log ) {
+            if ( !array_key_exists($log->entry_date, $this->chronoLogMap) ) {
                 $this->chronoLogMap[$log->entry_date] = array();
             }
 

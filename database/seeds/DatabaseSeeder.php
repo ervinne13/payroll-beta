@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder {
             DB::table("policy")->truncate();
 
             DB::table("position")->truncate();
-            DB::table("position_level")->truncate();
+            DB::table("position_level")->truncate();                                   
 
             DB::table("employee")->truncate();
 
@@ -74,6 +74,8 @@ class DatabaseSeeder extends Seeder {
 
             $this->call(EmployeeSeeder::class);
 
+            $this->call(SampleDataSeeder::class);
+            
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

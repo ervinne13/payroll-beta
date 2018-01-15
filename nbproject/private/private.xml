@@ -12,5 +12,11 @@
             <file>file:/C:/xampp/htdocs/others/payroll/resources/views/pages/payroll/process.blade.php</file>
             <file>file:/C:/xampp/htdocs/others/payroll/app/Services/Payroll/TaxComputerService.php</file>
         </group>
+        <group name="Freelance Projects">
+            <file>file:/C:/xampp/htdocs/payroll-beta/resources/views/layouts/parts/static-sidebar.blade.php</file>
+            <file>file:/C:/xampp/htdocs/payroll-beta/resources/views/layouts/bsb-side-nav.blade.php</file>
+            <file>file:/C:/xampp/htdocs/payroll-beta/resources/views/layouts/parts/conditional-sidebar.blade.php</file>
+            <file>file:/C:/xampp/htdocs/payroll-beta/config/app.php</file>
+        </group>
     </open-files>
 </project-private>
