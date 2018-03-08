@@ -4,7 +4,8 @@ namespace App\Models\Payroll;
 
 use App\Models\SGModel;
 
-class Payroll extends SGModel {
+class Payroll extends SGModel
+{
 
     protected $table      = "payroll";
     protected $primaryKey = "pay_period";
@@ -13,8 +14,14 @@ class Payroll extends SGModel {
         "approved_by", "prepared_by", "received_by"
     ];
 
-    public function payrollEntries() {
+    public function payrollEntries()
+    {
         return $this->hasMany(PayrollEntry::class, "payroll_pay_period");
+    }
+
+    public function scopeLatestOpen($query)
+    {
+        return $query->where('open', true)->orderBy('pay_period', 'DESC');
     }
 
 }
